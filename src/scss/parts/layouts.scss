@@ -1,0 +1,35 @@
+.wrapper {
+    width: 81.46%;
+}
+
+.pad-t {
+    padding-top: 5.65rem;
+}
+
+.pad-b {
+    padding-bottom: 5.65rem;
+}
+
+.mgn-t {
+    margin-top: 5.65rem;
+}
+
+.mgn-b {
+    margin-bottom: 5.65rem;
+}
+
+.media-wrapper {
+    position: relative;
+    overflow: hidden;
+
+    img,
+    video,
+    canvas {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}

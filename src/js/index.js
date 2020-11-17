@@ -1,10 +1,6 @@
 // files
-import './parts/test';
+import './parts/main';
 //
-import test from './parts/test2';
-import $ from "jquery";
+// import test from './parts/test2';
 
-console.log(test.obj);
-$(function() {
-  $("body").css("color", "blue");
-});
+

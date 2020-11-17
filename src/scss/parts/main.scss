@@ -1,18 +1,138 @@
 @font-face {
-    font-family: "Roboto";
+    font-family: 'Cormorant Garamond';
+    src: url('../fonts/CormorantGaramond-Regular.woff2') format('woff'),
+        url('../fonts/CormorantGaramond-Regular.woff') format('woff2');
+    font-weight: normal;
     font-style: normal;
-    font-weight: 400;
-    src: url(../fonts/Roboto-Regular.ttf);
+    font-display: swap;
 }
 
-body {
-    font-family: $font-stack;
-    background: url(../uploads/test.jpg);
-    &::after {
-        content: 'test scss';
-        display: block;
-        width: 100px;
-        height: 100px;
-        background-image: url(../img/logo.svg);
-    }
+@font-face {
+    font-family: 'Cormorant Garamond';
+    src: url('../fonts/CormorantGaramond-SemiBold.woff2') format('woff'),
+        url('../fonts/CormorantGaramond-SemiBold.woff') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
 }
+
+@font-face {
+    font-family: 'Cormorant Garamond';
+    src: url('../fonts/CormorantGaramond-Bold.woff2') format('woff'),
+        url('../fonts/CormorantGaramond-Bold.woff') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cormorant Garamond';
+    src: url('../fonts/CormorantGaramond-Medium.woff2') format('woff'),
+        url('../fonts/CormorantGaramond-Medium.woff') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cormorant Garamond';
+    src: url('../fonts/CormorantGaramond-Light.woff2') format('woff'),
+        url('../fonts/CormorantGaramond-Light.woff') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'HelveticaNeueCyr';
+    src: url('../fonts/HelveticaNeueCyr-LightItalic.woff2') format('woff'),
+        url('../fonts/HelveticaNeueCyr-LightItalic.woff') format('woff2');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'HelveticaNeueCyr';
+    src: url('../fonts/HelveticaNeueCyr-Roman.woff2') format('woff'),
+        url('../fonts/HelveticaNeueCyr-Roman.woff') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'HelveticaNeueCyr';
+    src: url('../fonts/HelveticaNeueCyr-Light.woff2') format('woff'),
+        url('../fonts/HelveticaNeueCyr-Light.woff') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'HelveticaNeueCyr';
+    src: url('../fonts/HelveticaNeueCyr-Medium.woff2') format('woff'),
+        url('../fonts/HelveticaNeueCyr-Medium.woff') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+html {
+    font-size: 0.83vw;
+    font-family: 'HelveticaNeueCyr';
+    font-weight: 300;
+    
+}
+body {
+    background-color: $bg;
+}
+
+//scroll 
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-width: 1px 1px 1px 2px;
+    border-color: #fafafa;
+    background-color: #444;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    border-width: 1px 1px 1px 2px;
+    border-color: #fafafa;
+    background-color: #373A3C;
+}
+
+::-webkit-scrollbar-track {
+    border-width: 0;
+}
+
+::-moz-scrollbar {
+    width: 6px;
+}
+
+::-moz-scrollbar-thumb {
+    border-width: 1px 1px 1px 2px;
+    border-color: #fafafa;
+    background-color: #373A3C;
+}
+
+::-moz-scrollbar-thumb:hover {
+    border-width: 1px 1px 1px 2px;
+    border-color: #fafafa;
+    background-color: #666;
+}
+
+::-moz-scrollbar-track {
+    border-width: 0;
+}
+

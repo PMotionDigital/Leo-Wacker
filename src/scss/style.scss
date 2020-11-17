@@ -1,4 +1,21 @@
 @import './parts/vars';
 //
+@import './libs/global';
+@import './libs/grid';
+//
 @import './parts/main';
-
+@import './parts/layouts';
+@import './parts/ui';
+@import './parts/header';
+@import './parts/footer';
+//pages 
+@import './parts/pages/front-page';
+//blocks
+@import './parts/blocks/about';
+@import './parts/blocks/full-cover';
+@import './parts/blocks/list-cover';
+@import './parts/blocks/side-list';
+@import './parts/blocks/chose-list';
+@import './parts/blocks/contacts';
+@import './parts/blocks/presentation';
+@import './parts/blocks/projects';

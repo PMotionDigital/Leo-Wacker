@@ -1,0 +1,27 @@
+.projects-block {
+    &_projects {
+        padding: 0 0.63rem;
+        padding-top: 3rem;
+        display: flex;
+        flex-wrap: wrap;
+        
+        &-item {
+            padding: 0.63rem;
+            width: calc(100% / 3);
+            &-image {
+                width: 100%;
+                &::after {
+                    content: '';
+                    display: block;
+                    padding-top: 150%;
+                }
+            }
+            &-title {
+                padding-top: 1.88rem;
+                font-size: 2.18rem;
+                font-family: 'Cormorant Garamond';
+                padding-right: 1rem;
+            }
+        }
+    }
+}

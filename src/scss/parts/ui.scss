@@ -1,0 +1,32 @@
+// titles
+.title {
+    &.type-1 > *{
+        font-size: 5rem;
+        font-family: 'Cormorant Garamond';
+        font-weight: 300;
+    }
+}
+// buttons 
+.button {
+    display: inline-block;
+    cursor: pointer;
+    font-family: 'Cormorant Garamond';
+    text-transform: uppercase;
+    font-size: 1.88rem;
+    background-color: #dedede;
+    padding: 1rem 3rem;
+    transition: .3s $quad;
+    border: 1px solid transparent;
+    &.type-1 {
+        font-size: 2.16rem;
+    }
+    &.blue {
+        background-color: $blue;
+        color: $white;
+    }
+    &.trans {
+        border-color: $white;
+        background-color: rgba($black, .2);
+        color: $white;
+    }
+}

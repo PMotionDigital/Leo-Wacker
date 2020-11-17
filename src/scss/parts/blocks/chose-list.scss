@@ -1,0 +1,43 @@
+.choselist-block {
+    &_title {
+        padding-top: 1rem;
+    }
+    &_desc {
+        padding-top: 3.75rem;
+        font-size: 1.25rem;
+        line-height: 2.25rem;
+        font-weight: 300;
+        color: $grey-3;
+    }
+    &_list {
+        padding-top: 2rem;
+        &-item {
+            //padding: 2rem;
+            position: relative;
+            &-title {
+                padding: 2rem;
+                text-transform: uppercase;
+                text-align: center;
+                font-size: 1.88rem;
+                font-family: 'Cormorant Garamond';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                color: $white;
+            }
+            &-image {
+                position: relative;
+                &::after {
+                    content: '';
+                    background: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 75%);
+                    display: block;
+                    padding-top: 186%;    
+                }
+                img {
+                    z-index: -1;
+                }
+            }
+        }
+    }
+}

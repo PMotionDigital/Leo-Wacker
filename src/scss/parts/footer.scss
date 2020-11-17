@@ -1,0 +1,36 @@
+.site-footer {
+    padding: 1rem;
+    padding-bottom: 1.5rem;
+    background-color: $blue;
+    color: $white;
+    display: flex;
+    justify-content: space-between;
+}
+.footer-block {
+    position: relative;
+    padding-bottom: 15rem;
+    &_image {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        img {
+            object-position: top;
+            mix-blend-mode: darken;
+        }
+    }
+    &_text {
+        font-size: 3.75rem;
+        text-align: center;
+        font-family: 'Cormorant Garamond';
+        line-height: 1.33em;
+        color: $blue;
+        strong {
+            color: #767676;
+            font-stretch: normal;
+            font-weight: normal;
+        }
+    }
+
+}

@@ -1,0 +1,55 @@
+.block-front {
+    //padding-top: 4rem;
+    position: relative;
+    &_video {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
+    &_links {
+        padding: 15rem 1.4rem;
+        .table {
+            display: flex;
+            justify-content: flex-start;
+            &:last-child {
+                justify-content: flex-end;
+            }
+        }
+        &-item {
+            display: flex;
+            align-items: flex-start;
+            border-top: 1px solid $white;
+            font-family: 'Cormorant Garamond';
+            color: $white;
+            .preffix {
+                font-size: 3.13rem;
+                display: inline-block;
+                padding-top: 1.5rem;
+            }
+            .text {
+                font-size: 10rem;
+                display: inline-block;
+                position: relative;
+                padding-right: 4rem;
+                &::after {
+                    content: '';
+                    position: absolute;
+                    right: 0;
+                    top: 30%;
+                    transform: translateY(-50%);
+                    width: 3.56rem;
+                    height: 3.56rem;
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    background-position: center;
+                    border-radius: 100%;
+                    background-image: url(../img/icons/arrow.svg);
+                    box-shadow: 2rem 1.2rem 3.5rem rgba($black, .3);
+                }
+            }
+        }
+    }
+}
