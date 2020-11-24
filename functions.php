@@ -23,6 +23,16 @@ include 'functions/register-blocks.php';
 include 'functions/register-post-types.php';
 include 'functions/register-endpoints.php';
 
+
+
+
+function my_acf_google_map_api( $api ){
+    $api_key = 'AIzaSyDPvFMTg4kMp4G8FJOJMQAgJrkSaG1wls0';
+	$api['key'] = $api_key; // Ваш ключ Google API
+	return $api;
+}
+add_filter('acf/fields/google_map/api', 'my_acf_google_map_api');
+
 // автообновление версии файлов
 
 function my_theme_load_resources() {

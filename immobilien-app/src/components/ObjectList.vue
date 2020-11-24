@@ -1,4 +1,5 @@
 <template>
+<div class="main-wrapper">
   <div class="objects-wrapper">
     <div class="objects-controlls">
         <transition name="heightToggle">
@@ -24,7 +25,7 @@
                             :max="filter.max" 
                             :formatter="filter.format"
                             :enable-cross="false"
-                            :tooltip="false">
+                            :tooltip="'hover'">
                         </vue-range-slider>
                         <div class="filters-item_display">
                             {{ filter.format(filter.val[0]) }} - {{ filter.format(filter.val[1]) }}
@@ -51,8 +52,10 @@
     <p v-else>
         {{emptyMessage}}
     </p>
+    
   </div>
-  <MapDisplay v-bind:objects="objects" />
+  <MapDisplay v-if="objects.length" v-bind:objects="filteredObjects" />
+  </div>
 </template>
 
 <script>
@@ -153,6 +156,12 @@ export default {
 </script>
 
 <style scoped>
+.main-wrapper {
+    justify-content: space-between;
+    display: flex;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
     .controlls-title {
         color: #3C3C3C;
         font-size: 1.25rem;
