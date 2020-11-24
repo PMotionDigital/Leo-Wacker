@@ -5,17 +5,17 @@
         </span>
         <p class="about-block_pretitle-text"><?php the_field('надзаголовок'); ?></p>
     </div>
-    <div class="about-block_title title type-1 wrapper text-center">
+    <div class="about-block_title title type-1 wrapper text-center" data-title-animate>
         <h2><?php the_field('заголовок'); ?></h2>
     </div>
-    <div class="about-block_image">
+    <div class="about-block_image" data-parallax="-3">
         <div class="about-block_image-bg"><?php the_field('фоновый_текст'); ?></div>
         <?php echo wp_get_attachment_image( get_field('изображение'), 'full'); ?>
     </div>
     <div class="about-block_wrap wrapper">
-        <div class="col-lg-6 col-xs-12">
+        <div class="col-lg-6 col-xs-12" data-parallax="5">
         <?php if(have_rows('услуги')): ?>
-            <div class="about-block_list-wrap">
+            <div class="about-block_list-wrap" >
                 <div class="about-block_list-title"><?php the_field('услуги_заголовок'); ?></div>
                 <ul class="about-block_list">
                 <?php while(have_rows('услуги')):the_row(); ?>

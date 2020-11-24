@@ -1,7 +1,7 @@
 
 <section class="wp-block fullcover-block dis-flex flex-direction-col align-items-center mgn-t mgn-b">
     <div class="fullcover-block_bg media-wrapper">
-        <?php echo wp_get_attachment_image( get_field('фон'), 'large'); ?>
+        <img data-parallax-cover="25" src="<?php echo wp_get_attachment_image_url( get_field('фон'), 'full'); ?>" alt="">
     </div>
     <div class="fullcover-block_title title type-1 text-center col-lg-6 col-xs-12">
         <h2><?php the_field('заголовок'); ?></h2>

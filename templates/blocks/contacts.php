@@ -2,7 +2,7 @@
     <div class="wrapper">
         <div class="dis-flex justify-content-center">
             <div class="col-lg-10 col-xs-12">
-                <div class="contacts-block_title title type-1 text-center">
+                <div class="contacts-block_title title type-1 text-center" data-title-animate>
                     <h2><?php
                     if(get_field('заголовок')): 
                         the_field('заголовок'); 
@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="contacts-block_wrap mgn-t">
-            <div class="contacts-block_image media-wrapper">
+            <div class="contacts-block_image media-wrapper" data-parallax="-3">
                 <?php 
                 if(get_field('изображение')):
                     echo wp_get_attachment_image( get_field('изображение'), 'full'); 
@@ -22,7 +22,7 @@
                     echo wp_get_attachment_image( get_field('изображение', 'option'), 'full'); 
                 endif; ?>
             </div>
-            <div class="contacts-block_contacts col-lg-6 col-xs-12">
+            <div class="contacts-block_contacts col-lg-6 col-xs-12" data-parallax="7">
                 <?php if(have_rows('контакты')): 
                 $prev_name = ''; ?>
                 <ul class="contacts-block_list">

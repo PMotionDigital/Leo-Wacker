@@ -1,0 +1,75 @@
+.team-block {
+    position: relative;
+    overflow-x: hidden;
+    max-width: 100%;
+    .padding {
+        padding: 0 4.94rem;
+    }
+    &_slider {
+        padding-top: 9rem;
+        display: flex;
+        &-wrap {
+            //padding: 0 4.94rem;
+        }
+        &-item {
+            padding: 0 4.94rem;
+            &-wrap {
+                display: flex;
+                flex-wrap: wrap;
+                background-color: $white;
+            }
+            &-image {
+                &::after {
+                    content: '';
+                    display: block;
+                    padding-top: 161%;
+                }
+            }
+            &-content {
+                padding: 2rem 4.43rem;
+                padding-right: 2.2rem;
+                .team-date {
+                    padding-bottom: 1rem;
+                    font-size: 1.25rem;
+                    color: #717171;
+                }
+                .team-content {
+                    font-size: 2.63rem;
+                    font-family: 'Cormorant Garamond';
+                    font-weight: 400;
+                    line-height: 1.2;
+                    a {
+                        color: #717171;
+                        background-size: 1px 1em;
+                        box-shadow:
+                            inset 0 -0.175em white,
+                            inset 0 -0.21em #717171;
+                        display: inline;
+                        transition: .25s ease-out;
+                        &:hover {
+                            color: $blue;
+                            box-shadow:
+                            inset 0 -0.175em $white,
+                            inset 0 -0.21em $blue;
+                        }
+                    }
+                }
+                .team-desc {
+                    font-size: 1.25rem;
+                    line-height: 2.25rem;
+                    color: #3c3c3c;
+                    padding-top: 5rem;
+                    padding-right: 2rem;
+                    max-height: 23rem;
+                    overflow: hidden;
+                    a {
+                        color: $blue;
+                        &:hover {
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

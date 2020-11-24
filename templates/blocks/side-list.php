@@ -2,11 +2,11 @@
     <div class="wrapper dis-flex flex-wrap-wrap">
         <div class="col-lg-6 col-xs-12">
             <div class="sidelist-block_image">
-                <?php echo wp_get_attachment_image( get_field('изображение'), 'full'); ?>
+                <img data-parallax-cover="20" src="<?php echo wp_get_attachment_image_url( get_field('изображение'), 'full'); ?>" alt="">
             </div>
         </div>
         <div class="col-lg-6 col-xs-12 sidelist-block_right">
-            <div class="sidelist-block_title title type-1">
+            <div class="sidelist-block_title title type-1" data-title-animate>
                 <h2><?php the_field('заголовок'); ?></h2>
             </div>
             <?php if(have_rows('список')): ?>

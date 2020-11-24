@@ -33,3 +33,37 @@
         object-fit: cover;
     }
 }
+.glide-slider {
+    &_arrows {
+        padding-top: 3.13rem;
+        display: flex;
+        justify-content: center;
+    }
+    &_arrow {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 3.56rem;
+        min-width: 3.56rem;
+        height: 3.56rem;
+        border-radius: 100%;
+        border: none;
+        color: transparent;
+        font-size: 0.00001rem;
+        background: url(../img/icons/slider-arrow.svg);
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 0 .81rem;
+        transition: .25s ease-out;
+        cursor: pointer;
+        &:focus {
+            outline: none;
+        }
+        &:hover {
+            box-shadow: 0rem 1.2rem 3.5rem rgba($black, .3);
+        }
+        &--left {
+            transform: scaleX(-1);
+        }
+    }
+}

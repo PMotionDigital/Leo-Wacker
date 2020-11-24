@@ -10,6 +10,7 @@
             width: calc(100% / 3);
             &-image {
                 width: 100%;
+                overflow: hidden;
                 &::after {
                     content: '';
                     display: block;

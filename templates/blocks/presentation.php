@@ -1,6 +1,6 @@
 <section class="wp-block presentation-block">
     <div class="presentation-block_bg media-wrapper">
-    <?php echo wp_get_attachment_image( get_field('фон'), 'full'); ?>
+        <img data-parallax-cover="38" src="<?php echo wp_get_attachment_image_url( get_field('фон'), 'full'); ?>" alt="">
     </div>
     <div class="presentation-block_title">
         <h1><?php 

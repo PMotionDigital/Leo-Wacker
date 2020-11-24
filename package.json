@@ -9,6 +9,7 @@
     "build": "webpack --mode production"
   },
   "dependencies": {
+    "@glidejs/glide": "^3.4.1",
     "jquery": "^3.5.1"
   },
   "devDependencies": {

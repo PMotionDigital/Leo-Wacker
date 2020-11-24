@@ -157,5 +157,23 @@ function my_acf_init_block_types() {
                 )
             )
         ));
+        // register a Our Team block.
+        acf_register_block_type(array(
+            'name'              => 'Our Team',
+            'title'             => __('Our Team'),
+            'description'       => __('A custom Our Team block.'),
+            'render_template'   => 'templates/blocks/our-team.php',
+            'category'          => 'formatting',
+            'icon'              => 'cover-image',
+            'keywords'          => array('team'),
+            'example'  => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'is_preview' => true
+                    )
+                )
+            )
+        ));
     }
 }

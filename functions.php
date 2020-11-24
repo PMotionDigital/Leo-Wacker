@@ -20,6 +20,8 @@ if (function_exists('acf_add_options_page')) {
 // includes 
 
 include 'functions/register-blocks.php';
+include 'functions/register-post-types.php';
+include 'functions/register-endpoints.php';
 
 // автообновление версии файлов
 

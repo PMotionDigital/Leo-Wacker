@@ -8,7 +8,6 @@
 		<meta name="HandheldFriendly" content="true">
 		<?php wp_head(); ?>
 	</head>
-	<?php echo get_field('цвет_фона'); ?>
 	<body <?php body_class(array('page')) ?> style="background: <?php echo get_field('цвет_фона'); ?>">
 	<header class="site-header transparent" style="<?php if(is_user_logged_in()){ echo 'top: 32px'; }; ?>">
 		<div class="site-header_left col-lg-4">
@@ -20,7 +19,7 @@
 			<?php echo do_shortcode('[widget id="nav_menu-2"]'); ?>
 		</div>
 		<div class="site-header_right col-lg-4">
-			<a href="#" class="header-link">Immobile verkaufen</a>
+			<a href="/immobilie-verkaufen" class="header-link">Immobile verkaufen</a>
 			<a href="tel:4903026035598" class="header-link">+49 (0) 30-260-355-98</a>
 			<?php echo do_shortcode('[widget id="polylang-2"]'); ?>
 		</div>

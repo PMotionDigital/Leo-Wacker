@@ -1,0 +1,13 @@
+[data-title-animate] {
+    transition: .35s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: translate3d(0);
+    will-change: transform;
+    &.hide-top {
+        opacity: 0;
+        transform: translate3d(0, -2rem, 0);
+    }
+    &.hide-bottom {
+        opacity: 0;
+        transform: translate3d(0, 2rem, 0);
+    }
+}

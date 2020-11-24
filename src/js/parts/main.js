@@ -6,7 +6,7 @@ $(window).bind('scroll', () => {
 changeHeader();
 function changeHeader() {
     const elems = $('[data-change-header]');
-    if(elems.lingth) {
+    if(elems.length) {
         elems.each((i, e) => {
             const {top, height} = e.getBoundingClientRect();
             const bottom = top + height;

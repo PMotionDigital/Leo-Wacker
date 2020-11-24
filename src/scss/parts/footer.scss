@@ -18,6 +18,7 @@
         img {
             object-position: top;
             mix-blend-mode: darken;
+            will-change: transform;
         }
     }
     &_text {
@@ -26,6 +27,8 @@
         font-family: 'Cormorant Garamond';
         line-height: 1.33em;
         color: $blue;
+        position: relative;
+        z-index: 1;
         strong {
             color: #767676;
             font-stretch: normal;

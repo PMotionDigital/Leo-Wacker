@@ -1,0 +1,4 @@
+const animate = () => {
+    
+    requestAnimationFrame(animate);
+};

@@ -5,6 +5,7 @@
     &_image {
         position: relative;
         width: 80%;
+        overflow: hidden;
         &::after {
             content: '';
             display: block;
