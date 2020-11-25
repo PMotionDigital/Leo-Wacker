@@ -1,11 +1,16 @@
 <?php 
 
 add_action( 'rest_api_init', 'objects_route' );
-
+//(?P<id>\d+)
 function objects_route () {
     register_rest_route( 'objects-list/v1', '/objects', array(
         'methods' => 'GET',
         'callback' => 'my_awesome_func',
+        'permission_callback' =>  '__return_true'
+    ) );
+    register_rest_route( 'objects-list/v1', '/objects/(?P<id>\d+)', array(
+        'methods' => 'GET',
+        'callback' => 'get_object',
         'permission_callback' =>  '__return_true'
     ) );
 }

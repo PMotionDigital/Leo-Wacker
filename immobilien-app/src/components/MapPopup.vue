@@ -6,12 +6,12 @@
         <div class="popup-item_content">
           
             <div class="popup-item_title">
-                <h3>{{object.name}}</h3>
+                <h3><ObjectLink :linkText="object.name" :postId="object.id" /></h3>
             </div>
            
             <div class="popup-item_price">
                 <span class="price">
-                    {{object.price}} €
+                   € {{object.price}} 
                 </span>
             </div>
         </div>
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import ObjectLink from '@/components/ObjectLink'
 export default {
     props: {
         object: {
@@ -26,12 +27,16 @@ export default {
             required: true
         }
     },
+    components: {
+        ObjectLink
+    },
     data() {
         return {
           //
         }
     },
     mounted() {
+        //
     }
 }
 </script>
@@ -42,6 +47,10 @@ export default {
     position: relative;
     background: #fff;
     overflow: hidden;
+    animation: fadein .4s ease-out;
+    animation-delay: .4s;
+    animation-fill-mode: forwards;
+    opacity: 0;
 }
 .popup-item_image {
     position: relative;
@@ -55,5 +64,28 @@ export default {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+.popup-item_title h3 {
+    font-stretch: normal;
+    font-weight: 400;
+    font-size: 1rem;
+}
+.popup-item_price {
+    padding-top: 1rem;
+    font-weight: bold;
+}
+.popup-item_content {
+    padding: 1rem;
+}
+
+@keyframes fadein {
+    0% {
+        opacity: 0;
+        transform: translateY(1rem);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 </style>

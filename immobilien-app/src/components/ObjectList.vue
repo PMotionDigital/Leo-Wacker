@@ -47,6 +47,7 @@
             v-for="object in filteredObjects" 
             v-bind:key="object.id" 
             v-bind:object="object" 
+            v-bind:active="activeElement == object.id"
         />
     </ul>
     <p v-else>
@@ -54,7 +55,7 @@
     </p>
     
   </div>
-  <MapDisplay v-if="objects.length" v-bind:objects="filteredObjects" />
+  <MapDisplay v-if="objects.length" v-on:scroll-to="scrollTo" v-bind:objects="filteredObjects" />
   </div>
 </template>
 
@@ -74,7 +75,8 @@ export default {
             loading: true,
             loadingMessage: 'Loading...',
             emptyMessage: 'Not Found',
-            showControlls: true
+            showControlls: true,
+            activeElement: 0
         }
     },
     components: {
@@ -133,6 +135,9 @@ export default {
                 current: array[0]
             }
             this.selects.push(select)
+        },
+        scrollTo(obj) {
+            this.activeElement = obj.id
         }
     },
     computed: {
@@ -145,7 +150,7 @@ export default {
                 this.selects.forEach((select) => {
                     if(select.current !== 'All') {
                         compare.push(obj[select.field] == select.current)
-                        console.log(obj[select.field],  select.current)
+                        //console.log(obj[select.field],  select.current)
                     }
                 })
                 return compare.every((i) => i == true)
@@ -174,8 +179,11 @@ export default {
     }
     .objects {
         overflow-y: scroll;
+        overflow-x: hidden;
         padding: 0 1.88rem;
         flex-grow: 2;
+        position: relative;
+        direction: rtl;
     }
     .objects-wrapper {
         height: calc(100vh - 4rem);
