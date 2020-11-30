@@ -6,7 +6,10 @@
         <div class="popup-item_content">
           
             <div class="popup-item_title">
-                <h3><ObjectLink :linkText="object.name" :postId="object.id" /></h3>
+                <h3><ObjectLink 
+                :linkText="object.name" 
+                :postId="object.id"
+                v-on:set-id="passId" /></h3>
             </div>
            
             <div class="popup-item_price">
@@ -33,6 +36,11 @@ export default {
     data() {
         return {
           //
+        }
+    },
+    methods: {
+        passId(data){
+            this.$emit('pass-id', data);
         }
     },
     mounted() {

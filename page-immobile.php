@@ -12,9 +12,10 @@ get_header();
 
 ?> 
 <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/immobilien-app/dist/css/app.css">
+<input type="hidden" id="current_locale_" value="<?php echo pll_current_language(); ?>">
 <div class="app-wrapper">
     <immobilien-app></immobilien-app>
 </div>
 
-<?php get_footer(); ?>
+<?php  wp_footer(); ?>
 <script src="<?php bloginfo('template_url'); ?>/immobilien-app/dist/js/app.js"></script> 

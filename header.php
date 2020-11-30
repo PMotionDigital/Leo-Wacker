@@ -19,7 +19,7 @@
 			<?php echo do_shortcode('[widget id="nav_menu-2"]'); ?>
 		</div>
 		<div class="site-header_right col-lg-4">
-			<a href="/immobilie-verkaufen" class="header-link">Immobile verkaufen</a>
+			<a href="<?php echo get_page_link(pll_get_post(257)); ?>" class="header-link"><?php echo get_the_title(pll_get_post(257)); ?></a>
 			<a href="tel:4903026035598" class="header-link">+49 (0) 30-260-355-98</a>
 			<?php echo do_shortcode('[widget id="polylang-2"]'); ?>
 		</div>

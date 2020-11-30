@@ -1,6 +1,7 @@
 // files
 import './parts/main';
 import './parts/blocks/our-team';
+import './parts/blocks/chose-list';
 
 // animation 
 import './parts/animation/image-hover';

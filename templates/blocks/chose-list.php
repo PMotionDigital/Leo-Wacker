@@ -6,7 +6,7 @@
         <?php if(have_rows('список')): ?>
         <div class="choselist-block_list dis-flex flex-wrap-wrap">
             <?php while(have_rows('список')):the_row(); ?>
-            <a href="<?php the_sub_field('ссылка'); ?>" class="choselist-block_list-item col-lg-3 col-lm-6 col-xs-12">
+            <a href="<?php the_sub_field('ссылка'); ?>" data-link="<?php the_sub_field('ссылка'); ?>" class="choselist-block_list-item col-lg-3 col-lm-6 col-xs-12">
                 <div class="choselist-block_list-item-image media-wrapper" data-image-animate>
                     <?php echo wp_get_attachment_image( get_sub_field('изображение'), 'large'); ?>
                 </div>

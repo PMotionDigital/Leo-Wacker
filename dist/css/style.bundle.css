@@ -1311,6 +1311,55 @@ body {
             .team-block_slider-item-content .team-desc a:hover {
               text-decoration: underline; }
 
+[data-modal="formular"] {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #ffffff;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  transform: translate3d(0, -50%, 0);
+  transition: .3s ease-out;
+  z-index: 9999; }
+  [data-modal="formular"].opened {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+    transform: translate3d(0, 0, 0); }
+  [data-modal="formular"] .loader {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+    [data-modal="formular"] .loader.hide {
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden; }
+    [data-modal="formular"] .loader_text {
+      font-size: 17rem;
+      text-transform: uppercase;
+      font-family: 'Cormorant Garamond';
+      color: #ffffff;
+      text-shadow: -1px -1px 0 #000000, 0 -1px 0 #000000, 1px -1px 0 #000000, 1px 0 0 #000000, 1px 1px 0 #000000, 0 1px 0 #000000, -1px 1px 0 #000000, -1px 0 0 #000000;
+      position: relative; }
+      [data-modal="formular"] .loader_text--load {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translate(0, -50%);
+        width: 0;
+        color: #000000;
+        white-space: nowrap;
+        overflow: hidden; }
+
 [data-title-animate] {
   transition: 0.35s cubic-bezier(0.25, 1, 0.5, 1);
   transform: translate3d(0);

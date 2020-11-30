@@ -14662,10 +14662,12 @@ return jQuery;
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _parts_main__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./parts/main */ "./src/js/parts/main.js");
 /* harmony import */ var _parts_blocks_our_team__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./parts/blocks/our-team */ "./src/js/parts/blocks/our-team.js");
-/* harmony import */ var _parts_animation_image_hover__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./parts/animation/image-hover */ "./src/js/parts/animation/image-hover.js");
-/* harmony import */ var _parts_animation_title_fadinout__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./parts/animation/title-fadinout */ "./src/js/parts/animation/title-fadinout.js");
-/* harmony import */ var _parts_animation_parallax__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./parts/animation/parallax */ "./src/js/parts/animation/parallax.js");
+/* harmony import */ var _parts_blocks_chose_list__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./parts/blocks/chose-list */ "./src/js/parts/blocks/chose-list.js");
+/* harmony import */ var _parts_animation_image_hover__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./parts/animation/image-hover */ "./src/js/parts/animation/image-hover.js");
+/* harmony import */ var _parts_animation_title_fadinout__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./parts/animation/title-fadinout */ "./src/js/parts/animation/title-fadinout.js");
+/* harmony import */ var _parts_animation_parallax__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./parts/animation/parallax */ "./src/js/parts/animation/parallax.js");
 // files
+
 
 
 
@@ -14712,7 +14714,7 @@ const imageAnimate = (pos, image) => {
             lastPos.y += Math.round((pos.y - lastPos.y)*0.08);
             const scale = 1.06;
             currentScale += (scale - currentScale)*0.08;
-            console.log(`transform3d(${((lastPos.x - 50)*0.06).toFixed(1)}%, ${((lastPos.y - 50)*0.06).toFixed(1)}%, 0)`);
+            //console.log(`transform3d(${((lastPos.x - 50)*0.06).toFixed(1)}%, ${((lastPos.y - 50)*0.06).toFixed(1)}%, 0)`);
             
             image.css({
                 transform: `translate3d(${(-(lastPos.x)*0.06).toFixed(1)}%, ${(-(lastPos.y)*0.06).toFixed(1)}%, 0) scale(${currentScale})`
@@ -14739,7 +14741,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on('mousemove', '[data-i
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on('mouseleave', '[data-image-animate]', (e) => {
     const image = jquery__WEBPACK_IMPORTED_MODULE_0___default()(e.currentTarget).find('img');
-    console.log(e.currentTarget);
+    //console.log(e.currentTarget);
     image.addClass('leave');
     image.css({
         transform: `translate3d(0, 0, 0) scale(1)`,
@@ -14753,7 +14755,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on('mouseleave', '[data-
 });
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on('mouseenter', '[data-image-animate]', (e) => {
     const image = jquery__WEBPACK_IMPORTED_MODULE_0___default()(e.currentTarget).find('img');
-    console.log(e.currentTarget);
+    //console.log(e.currentTarget);
     image.removeClass('leave');
     image.css({
         transition: `.0s`
@@ -14850,12 +14852,19 @@ const coverParallax = () => {
         });
     }
 }
-parallax();
-coverParallax();
-jquery__WEBPACK_IMPORTED_MODULE_0___default()(window).bind('scroll', ()=> {
+// parallax();
+// coverParallax();
+// $(window).bind('scroll', ()=> {
+//     parallax();
+//     coverParallax();
+// });
+
+const animate = () => {
     parallax();
     coverParallax();
-});
+    requestAnimationFrame(animate);
+}
+animate();
 
 /***/ }),
 
@@ -14896,6 +14905,70 @@ const titleAnimate = () => {
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(window).bind('scroll', () => {
     titleAnimate();
 });
+
+/***/ }),
+
+/***/ "./src/js/parts/blocks/chose-list.js":
+/*!*******************************************!*\
+  !*** ./src/js/parts/blocks/chose-list.js ***!
+  \*******************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default()('.choselist-block [data-link]').on('click', (e) => {
+    e.preventDefault();
+    const type = jquery__WEBPACK_IMPORTED_MODULE_0___default()(e.currentTarget).data('link');
+    openFormular(type);
+});
+
+function openFormular(type) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('[data-modal="formular"]').addClass('opened');
+    const loader = jquery__WEBPACK_IMPORTED_MODULE_0___default()('[data-modal="formular"] .loader');
+    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
+        url: `${window.location.origin}/wp-admin/admin-ajax.php`,
+        method: 'GET',
+        data: {
+            action: 'formular',
+            type: type
+        },
+        beforeSend: () => {
+            setTimeout(() => {
+                loader.find('.loader_text--load').stop().animate({
+                    width: '79%'
+                }, 2000);
+            }, 300);
+        },
+        success: (data) => {
+            
+            loader.find('.loader_text--load').stop().animate({
+                width: '100%'
+            }, 250, () => {
+                setTimeout(() => {
+                    loader.stop().animate({
+                        opacity: 0
+                    }, 250, () => {
+                        loader.attr('style', '');
+                        loader.addClass('hide');
+                        successHandler(data);
+                    });
+                },250);
+            });
+            
+        }
+    })
+}
+
+function successHandler(data) {
+    console.log(data);
+}
+
+
 
 /***/ }),
 

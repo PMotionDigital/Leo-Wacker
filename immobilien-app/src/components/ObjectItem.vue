@@ -8,7 +8,11 @@
                 {{location}}
             </div>
             <div class="object-item_title">
-                <h3><ObjectLink :linkText="object.name" :postId="object.id" /></h3>
+                <h3><ObjectLink 
+                :linkText="object.name" 
+                :postId="object.id" 
+                v-on:set-id="passId"
+                /></h3>
             </div>
             <ul class="object-item_props">
                 <li class="object-item_props-item">{{livingSpace}}</li>
@@ -31,6 +35,14 @@ export default {
             type: Object,
             required: true
         },
+        locale: {
+            type: String,
+            required: true
+        },
+        translations: {
+            type: Object,
+            required: true
+        },
         active: {
             type: Boolean,
             required: true
@@ -47,9 +59,9 @@ export default {
         }
     },
     mounted() {
-        this.location = `Berlin - ${this.object.area}, ${this.object.type_name}`;
+        this.location = `${this.translations.berlin[this.locale]} - ${this.object.area}, ${this.object.type_name}`;
         this.livingSpace = `${this.object.living_space} m2`;
-        this.rooms = `${this.object.room} zimmer`;
+        this.rooms = `${this.object.room} ${this.declOfNum(this.object.room, this.translations.zimmers[this.locale])}`;
     },
     methods: {
        scrollIntoView(el) {
@@ -59,6 +71,13 @@ export default {
                 left: 0,
                 behavior: 'smooth'
             });     
+        },
+        passId(data){
+            this.$emit('pass-id', data);
+        },
+        declOfNum(number, titles) {
+            const cases = [2, 0, 1, 1, 1, 2];
+            return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
         }
     },
     watch: {

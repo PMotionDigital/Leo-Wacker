@@ -17,7 +17,7 @@ const imageAnimate = (pos, image) => {
             lastPos.y += Math.round((pos.y - lastPos.y)*0.08);
             const scale = 1.06;
             currentScale += (scale - currentScale)*0.08;
-            console.log(`transform3d(${((lastPos.x - 50)*0.06).toFixed(1)}%, ${((lastPos.y - 50)*0.06).toFixed(1)}%, 0)`);
+            //console.log(`transform3d(${((lastPos.x - 50)*0.06).toFixed(1)}%, ${((lastPos.y - 50)*0.06).toFixed(1)}%, 0)`);
             
             image.css({
                 transform: `translate3d(${(-(lastPos.x)*0.06).toFixed(1)}%, ${(-(lastPos.y)*0.06).toFixed(1)}%, 0) scale(${currentScale})`
@@ -44,7 +44,7 @@ $(document).on('mousemove', '[data-image-animate]', (e) => {
 
 $(document).on('mouseleave', '[data-image-animate]', (e) => {
     const image = $(e.currentTarget).find('img');
-    console.log(e.currentTarget);
+    //console.log(e.currentTarget);
     image.addClass('leave');
     image.css({
         transform: `translate3d(0, 0, 0) scale(1)`,
@@ -58,7 +58,7 @@ $(document).on('mouseleave', '[data-image-animate]', (e) => {
 });
 $(document).on('mouseenter', '[data-image-animate]', (e) => {
     const image = $(e.currentTarget).find('img');
-    console.log(e.currentTarget);
+    //console.log(e.currentTarget);
     image.removeClass('leave');
     image.css({
         transition: `.0s`

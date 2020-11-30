@@ -1,0 +1,64 @@
+[data-modal="formular"] {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    min-height: 100vh;
+    background-color: $white;
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+    transform: translate3d(0,-50%,0);
+    transition: .3s ease-out;
+    z-index: 9999;
+    &.opened {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: all;
+        transform: translate3d(0,0,0);
+    }
+    .loader {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &.hide {
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+        }
+        &_text {
+            font-size: 17rem;
+            text-transform: uppercase;
+            font-family: 'Cormorant Garamond';
+            color: $white;
+            text-shadow:
+                -1px -1px 0 $black,
+                0   -1px 0 $black,
+                1px -1px 0 $black,
+                1px  0   0 $black,
+                1px  1px 0 $black,
+                0    1px 0 $black,
+                -1px  1px 0 $black,
+                -1px  0   0 $black;
+            position: relative;
+            &--load {
+                position: absolute;
+                top: 50%;
+                left: 0;
+                // left: 50%;
+                // top: 50%;
+                transform: translate(0, -50%);
+                width: 0;
+                color:  $black;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+        }
+    }
+}

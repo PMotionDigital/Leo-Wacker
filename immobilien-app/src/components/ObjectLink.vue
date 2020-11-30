@@ -1,5 +1,5 @@
 <template>
-    <div class="object-link" @click="loadPost">{{linkText}}</div>
+    <div class="object-link" @click="setId">{{linkText}}</div>
 </template>
 
 <script>
@@ -27,8 +27,14 @@ export default {
             console.log('load');
             const response = await fetch(`http://dev.leo-wacker.ru/wp-json/wp/v2/object/${this.postId}`);
             const data = await response.json();
-            console.log(data);
-            
+            // console.log(data);
+            this.$emit('on-load', data);    
+        },
+        setId(){
+            this.$emit('set-id', {
+                loading: true,
+                id: this.postId
+            });
         }
     }
 }
@@ -37,5 +43,9 @@ export default {
 <style scoped>
     .object-link {
         cursor: pointer;
+        transition: .2s ease-out;
+    }
+    .object-link:hover {
+        color: #E26E03;
     }
 </style>

@@ -15,6 +15,9 @@
         <div class="site-footer_copyrights">© Leo Wacker Immobilien, 2020</div>
         <div class="site-footer_menu">fdsa</div>
     </footer>
-    <?php wp_footer(); ?>
+    
+    <?php 
+    get_template_part('templates/modals/modal-formular');
+    wp_footer(); ?>
     </body>
 </html>

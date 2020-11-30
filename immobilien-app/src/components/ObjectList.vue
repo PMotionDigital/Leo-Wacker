@@ -37,17 +37,22 @@
         <div class="button-filters" 
         @click="showControlls = !showControlls"
         v-if="filteredObjects.length"
-        ><span>gefunden objektskhoph: {{filteredObjects.length}}</span></div>
+        ><span>{{translations.found[locale]}}: {{filteredObjects.length}}</span></div>
     </div>
     <p v-if="loading">
         {{loadingMessage}}
     </p>
     <ul class="objects" v-else-if="filteredObjects.length">
-        <ObjectItem  
+        <ObjectItem 
+            
+            v-on:pass-id="loadPost"
             v-for="object in filteredObjects" 
             v-bind:key="object.id" 
             v-bind:object="object" 
+            v-bind:translations="translations"
+            v-bind:locale="locale"
             v-bind:active="activeElement == object.id"
+            @click.native="scrollTo(object)"
         />
     </ul>
     <p v-else>
@@ -55,7 +60,13 @@
     </p>
     
   </div>
-  <MapDisplay v-if="objects.length" v-on:scroll-to="scrollTo" v-bind:objects="filteredObjects" />
+  <MapDisplay 
+  v-on:set-id="loadPost"
+  v-if="objects.length" 
+  v-on:scroll-to="scrollTo" 
+  v-bind:objects="filteredObjects"
+  v-bind:active="activeElement" />
+  <PostContainer v-if="postData" v-bind:postData="postData" />
   </div>
 </template>
 
@@ -65,6 +76,7 @@ import VueRangeSlider from 'vue-range-component'
 
 import ObjectItem from '@/components/ObjectItem'
 import MapDisplay from '@/components/MapDisplay'
+import PostContainer from '@/components/PostContainer'
 
 export default {
     data() {
@@ -76,24 +88,99 @@ export default {
             loadingMessage: 'Loading...',
             emptyMessage: 'Not Found',
             showControlls: true,
-            activeElement: 0
+            activeElement: 0,
+            postData: {
+                loading: true,
+                id: 0
+            },
+            locale: 'ru',
+            langs: [
+                {
+                    ind: 1,
+                    slug: 'ru'
+                },
+                {
+                    ind: 2,
+                    slug: 'en'
+                },
+                {
+                    ind: 3,
+                    slug: 'de'
+                }
+            ],
+            translations: {
+                All: {
+                    ru: 'Все',
+                    en: 'All',
+                    de: 'Alles'
+                },
+                immobilienart: {
+                    ru: 'Тип недвижимости',
+                    de: 'Immobilienart',
+                    en: 'Property type'
+                },
+                bezirk: {
+                    ru: 'Округ Берлина',
+                    en: 'District',
+                    de: 'Bezirk'
+                },
+                zimmer: {
+                    ru: 'Кол-во комнат',
+                    en: 'Rooms',
+                    de: 'Zimmer'
+                },
+                zimmers: {
+                    ru: ['Комната', 'Комнаты', 'Комнат'],
+                    en: ['Room', 'Rooms', 'Rooms'],
+                    de: ['Zimmer', 'Zimmer', 'Zimmer']
+                },
+                pries: {
+                    ru: 'Цена',
+                    en: 'Price',
+                    de: 'Pries'
+                },
+                flache: {
+                    de: 'Wohnfläche',
+                    en: 'Living space',
+                    ru: 'Жилая площадь'
+                },
+                found: {
+                    en: 'Objects found',
+                    ru: 'Найдено объектов',
+                    de:'Objekte gefunden'
+                },
+                'berlin': {
+                    en: 'Berlin',
+                    de: 'Berlin',
+                    ru: 'Берлин'
+                }
+            }
         }
     },
     components: {
         ObjectItem,
         VueRangeSlider,
-        MapDisplay
+        MapDisplay,
+        PostContainer
     },
     async created() {
         // GET request using fetch with async/await
-        const response = await fetch('http://dev.leo-wacker.ru/wp-json/objects-list/v1/objects');
+        const loc = document.getElementById('current_locale_');
+        let locVal = 1;
+        this.locale = this.langs.find(el => el.ind == locVal).slug;
+        if(loc) {
+            this.locale = loc.value;
+            locVal = this.langs.find(el => el.slug == loc.value).ind;
+        }
+        console.log(loc);
+        const response = await fetch(`http://dev.leo-wacker.ru/wp-json/objects-list/v1/objects/${locVal}`);
         const data = await response.json();
         this.objects = data;
         const rooms = [];
         const prices = [];
         const livingSpace = [];
-        const areas = ['All'];
-        const types = ['All'];
+        const areas = [this.translations.All[this.locale]];
+        const types = [this.translations.All[this.locale]];
         data.forEach((object) => {
             rooms.push(object.room);
             prices.push(Number(object.price));
@@ -101,17 +188,24 @@ export default {
             if(areas.indexOf(object.area) == -1){
                 areas.push(object.area);
             }
-            if(types.indexOf(object.type_name) == -1){
-                types.push(object.type_name);
-            }
+            // if(types.indexOf(object.type_name) == -1){
+            //     types.push(object.type_name);
+            // }
+            object.type_name.forEach((name) => {
+                if(types.indexOf(name) == -1) {
+                    types.push(name);
+                }
+            });
         });
         // create filters
-        this.createFilter('Zimmer', rooms, val => `${val} zimmer`, 'room');
-        this.createFilter('Pries', prices, val => `€ ${val}`, 'price');
-        this.createFilter('Flache', livingSpace, val => `${val} m2`, 'living_space');
+        this.createFilter(this.translations.zimmer[this.locale], rooms, (val) => {
+            return `${val} ${this.declOfNum(val, this.translations.zimmers[this.locale])}`; 
+            }, 'room');
+        this.createFilter(this.translations.pries[this.locale], prices, val => `€ ${val}`, 'price');
+        this.createFilter(this.translations.flache[this.locale], livingSpace, val => `${val} m2`, 'living_space');
         // create select filters
-        this.createSelectFilter('Bezirk', areas, 'area');
-        this.createSelectFilter('Immobilienart', types, 'type_name');
+        this.createSelectFilter(this.translations.bezirk[this.locale], areas, 'area');
+        this.createSelectFilter(this.translations.immobilienart[this.locale], types, 'type_name');
         //
         this.loading = false;
     },
@@ -138,6 +232,14 @@ export default {
         },
         scrollTo(obj) {
             this.activeElement = obj.id
+            console.log(this.activeElement);
+        },
+        loadPost(data){
+            this.postData = data;
+        },
+        declOfNum(number, titles) {
+            const cases = [2, 0, 1, 1, 1, 2];
+            return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
         }
     },
     computed: {
@@ -148,8 +250,14 @@ export default {
                     compare.push(obj[filt.field] >= filt.val[0] && obj[filt.field] <= filt.val[1]);
                 })
                 this.selects.forEach((select) => {
-                    if(select.current !== 'All') {
-                        compare.push(obj[select.field] == select.current)
+                    if(select.current !== this.translations.All[this.locale]) {
+                        if(Array.isArray(obj[select.field])){
+                            console.log('aray')
+                            compare.push(obj[select.field].indexOf(select.current) != -1);
+                        } else {
+                            compare.push(obj[select.field] == select.current)
+                        }
+                        
                         //console.log(obj[select.field],  select.current)
                     }
                 })
@@ -166,6 +274,7 @@ export default {
     display: flex;
     overflow-x: hidden;
     overflow-y: hidden;
+    position: relative;
 }
     .controlls-title {
         color: #3C3C3C;

@@ -12,9 +12,9 @@
         :coordinates="[Number(object.coords.lng), Number(object.coords.lat)]"
         >
         
-        <p @click="flyTo(object)" slot="marker" class="map-marker">€ {{object.price}}</p>
+        <p @click="flyTo(object)" :class="{active: active == object.id}" slot="marker" class="map-marker">€ {{object.price}}</p>
          <MglPopup :maxWidth="'18px'">
-          <MapPopup v-bind:object="object" />
+          <MapPopup v-on:pass-id="passId" v-bind:object="object" />
         </MglPopup>
       </MglMarker>
     </MglMap>
@@ -31,6 +31,10 @@ export default {
     objects: {
         type: Array,
         required: true
+    },
+    active: {
+        type: Number,
+        required: true
     }
   },
   components: {
@@ -46,14 +50,18 @@ export default {
       mapStyle: 'mapbox://styles/mapbox/streets-v11', // your map style
       mapCenter: [13.388382746972873, 52.51507071233264],
       mapZoom: 11,
+      flyZoom: 13,
       flySpeed: 0.8
     };
+  },
+  computed: {
+    //
   },
   methods: {
     async flyTo(el) {
       this.map.flyTo({
         center: [Number(el.coords.lng), Number(el.coords.lat)],
-        zoom: this.mapZoom,
+        zoom: this.flyZoom,
         speed: this.flySpeed
       });
       this.$emit('scroll-to', el)
@@ -61,12 +69,22 @@ export default {
     onMapLoaded(event) {
       // in component
       this.map = event.map;
+    },
+    passId(data){
+      this.$emit('set-id', data);
     }
   },
   created() {
     // We need to set mapbox-gl library here in order to use it in template
     this.mapbox = Mapbox;
     this.map = null;
+  },
+  watch: {
+    active: function(val, oldVal) {
+      if(val !== oldVal){
+        this.flyTo(this.objects.find((el) => el.id == val))
+      }
+    }
   }
 };
 </script>
@@ -84,6 +102,9 @@ export default {
   color: #000;
   box-shadow: 0px 0.25rem 1rem rgba(0, 0, 0, 0.17);
   font-weight: bold;
+}
+.map-marker.active {
+  border: 1px solid #E26E03;
 }
 .mapboxgl-popup {
   position: absolute;

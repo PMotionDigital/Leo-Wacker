@@ -15,6 +15,15 @@ if (function_exists('acf_add_options_page')) {
             'redirect'   => false
         )
     );
+    $option_page = acf_add_options_page(
+        array(
+            'page_title' => 'Формуляр',
+            'menu_title' => 'Формуляр',
+            'menu_slug'  => 'formular',
+            'capability' => 'edit_posts',
+            'redirect'   => false
+        )
+    );
 }
 
 // includes 
@@ -22,6 +31,7 @@ if (function_exists('acf_add_options_page')) {
 include 'functions/register-blocks.php';
 include 'functions/register-post-types.php';
 include 'functions/register-endpoints.php';
+include 'functions/func-formular.php';
 
 
 

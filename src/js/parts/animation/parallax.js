@@ -41,9 +41,16 @@ const coverParallax = () => {
         });
     }
 }
-parallax();
-coverParallax();
-$(window).bind('scroll', ()=> {
+// parallax();
+// coverParallax();
+// $(window).bind('scroll', ()=> {
+//     parallax();
+//     coverParallax();
+// });
+
+const animate = () => {
     parallax();
     coverParallax();
-});
+    requestAnimationFrame(animate);
+}
+animate();
