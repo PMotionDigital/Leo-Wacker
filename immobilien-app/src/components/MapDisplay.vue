@@ -13,8 +13,8 @@
         >
         
         <p @click="flyTo(object)" :class="{active: active == object.id}" slot="marker" class="map-marker">€ {{object.price}}</p>
-         <MglPopup :maxWidth="'18px'">
-          <MapPopup v-on:pass-id="passId" v-bind:object="object" />
+         <MglPopup :maxWidth="'18px'" @open="openPop(object.id)">
+          <MapPopup  v-on:pass-id="passId" v-bind:show="openedPopup == object.id" v-bind:object="object" />
         </MglPopup>
       </MglMarker>
     </MglMap>
@@ -51,7 +51,8 @@ export default {
       mapCenter: [13.388382746972873, 52.51507071233264],
       mapZoom: 11,
       flyZoom: 13,
-      flySpeed: 0.8
+      flySpeed: 0.8,
+      openedPopup: null
     };
   },
   computed: {
@@ -72,6 +73,10 @@ export default {
     },
     passId(data){
       this.$emit('set-id', data);
+    },
+    openPop(id) {
+      this.openedPopup = id;
+      console.log(id);
     }
   },
   created() {

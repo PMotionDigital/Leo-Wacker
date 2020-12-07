@@ -11,6 +11,7 @@
     "core-js": "^3.6.5",
     "mapbox-gl": "^1.13.0",
     "vue": "^2.6.11",
+    "vue-carousel": "^0.18.0",
     "vue-custom-element": "^3.2.14",
     "vue-mapbox": "^0.4.1",
     "vue-range-component": "^1.0.3"

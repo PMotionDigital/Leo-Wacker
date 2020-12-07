@@ -15,7 +15,7 @@ if (function_exists('acf_add_options_page')) {
             'redirect'   => false
         )
     );
-    $option_page = acf_add_options_page(
+    $formular_page = acf_add_options_page(
         array(
             'page_title' => 'Формуляр',
             'menu_title' => 'Формуляр',
@@ -24,6 +24,19 @@ if (function_exists('acf_add_options_page')) {
             'redirect'   => false
         )
     );
+
+
+    $languages = array( 'de', 'en', 'ru' );
+
+    foreach ( $languages as $lang ) {
+        acf_add_options_sub_page( array(
+        'page_title' => 'Настройки сайта (' . strtoupper( $lang ) . ')',
+        'menu_title' => __('Настройки сайта (' . strtoupper( $lang ) . ')', 'text-domain'),
+        'menu_slug'  => "options-${lang}",
+        'post_id'    => $lang,
+        'parent'     => $option_page['menu_slug']
+        ) );
+    }
 }
 
 // includes 

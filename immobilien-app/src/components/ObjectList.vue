@@ -37,7 +37,11 @@
         <div class="button-filters" 
         @click="showControlls = !showControlls"
         v-if="filteredObjects.length"
-        ><span>{{translations.found[locale]}}: {{filteredObjects.length}}</span></div>
+        >
+            <span class="text" v-if="showControlls">{{translations.closeFilters[locale]}}</span>
+            <span class="text" v-else>{{translations.openFilters[locale]}}</span>
+            <span>{{translations.found[locale]}}: {{filteredObjects.length}}</span>
+        </div>
     </div>
     <p v-if="loading">
         {{loadingMessage}}
@@ -66,7 +70,13 @@
   v-on:scroll-to="scrollTo" 
   v-bind:objects="filteredObjects"
   v-bind:active="activeElement" />
-  <PostContainer v-if="postData" v-bind:postData="postData" />
+
+  <PostContainer v-if="postData" 
+  v-bind:objects="objects" 
+  v-bind:postData="postData" 
+  v-bind:translations="translations"
+  v-bind:locale="locale"
+  v-bind:url="requestUrl" />
   </div>
 </template>
 
@@ -87,12 +97,13 @@ export default {
             loading: true,
             loadingMessage: 'Loading...',
             emptyMessage: 'Not Found',
-            showControlls: true,
+            showControlls: false,
             activeElement: 0,
             postData: {
                 loading: true,
                 id: 0
             },
+            requestUrl: '',
             locale: 'ru',
             langs: [
                 {
@@ -113,6 +124,16 @@ export default {
                     ru: 'Все',
                     en: 'All',
                     de: 'Alles'
+                },
+                openFilters: {
+                    ru: 'Открыть фильтры',
+                    en: 'Open filters',
+                    de: 'Filter öffnen'
+                },
+                closeFilters: {
+                    ru: 'Закрыть фильтры',
+                    en: 'Close filters',
+                    de: 'Filter schließen'
                 },
                 immobilienart: {
                     ru: 'Тип недвижимости',
@@ -166,14 +187,19 @@ export default {
     async created() {
         // GET request using fetch with async/await
         const loc = document.getElementById('current_locale_');
+        const urlEl = document.getElementById('current_url_');
         let locVal = 1;
         this.locale = this.langs.find(el => el.ind == locVal).slug;
+        this.requestUrl = 'http://dev.leo-wacker.ru';
         if(loc) {
             this.locale = loc.value;
             locVal = this.langs.find(el => el.slug == loc.value).ind;
         }
+        if(urlEl) {
+            this.requestUrl = urlEl.value;
+        }
         console.log(loc);
-        const response = await fetch(`http://dev.leo-wacker.ru/wp-json/objects-list/v1/objects/${locVal}`);
+        const response = await fetch(`${this.requestUrl}/wp-json/objects-list/v1/objects/${locVal}`);
         const data = await response.json();
         this.objects = data;
         const rooms = [];
@@ -232,7 +258,7 @@ export default {
         },
         scrollTo(obj) {
             this.activeElement = obj.id
-            console.log(this.activeElement);
+            console.log(this.activeElement, obj);
         },
         loadPost(data){
             this.postData = data;
@@ -333,8 +359,6 @@ export default {
     .button-filters {
         padding: 0.625em;
         width: 100%;
-    }
-    .button-filters span {
         cursor: pointer;
         display: block;
         border-radius: 50em;
@@ -342,6 +366,14 @@ export default {
         color: #fff;
         padding: 0.94em 1.25rem;
         font-size: 1.25em;
+        text-transform: uppercase;
+        display: flex;
+        justify-content: space-between;
+    }
+    .button-filters .text {
+        text-transform: lowercase;
+    }
+    .button-filters .text::first-letter {
         text-transform: uppercase;
     }
     .heightToggle-enter-active, .heightToggle-leave-active {

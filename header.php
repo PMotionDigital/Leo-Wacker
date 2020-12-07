@@ -24,3 +24,5 @@
 			<?php echo do_shortcode('[widget id="polylang-2"]'); ?>
 		</div>
 	</header>
+	<input type="hidden" id="current_locale_" value="<?php echo pll_current_language(); ?>">
+	<section id="my-scrollbar">

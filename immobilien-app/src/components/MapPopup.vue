@@ -1,8 +1,30 @@
 <template>
     <div class="popup-item">
-        <div class="popup-item_image">
-            <img :src="object.thumbnail" alt="">
+
+
+        <Carousel v-if="object.gallery.length && show"
+            :perPage="1" 
+            :navigationEnabled="true" 
+            :paginationActiveColor="'#ffffff'" 
+            :paginationColor="'rgba(255,255,255,.4)'"
+            :paginationPadding="0"
+            :paginationSize="8" >
+            <Slide>
+                <div class="popup-item_image">
+                    <img :src="object.thumbnail" :alt="object.name">
+                </div>
+            </Slide>
+            <Slide v-for="image in object.gallery" :key="object.gallery.indexOf(image)">
+                <div class="popup-item_image">
+                    <img :src="image" :alt="object.name">
+                </div>
+            </Slide>
+        </Carousel>
+        
+        <div v-else class="popup-item_image single">
+            <img :src="object.thumbnail" :alt="object.name">
         </div>
+      
         <div class="popup-item_content">
           
             <div class="popup-item_title">
@@ -23,19 +45,25 @@
 
 <script>
 import ObjectLink from '@/components/ObjectLink'
+import { Carousel, Slide } from 'vue-carousel'
 export default {
     props: {
         object: {
             type: Object,
             required: true
+        },
+        show: {
+            type: Boolean,
+            required: true
         }
     },
     components: {
-        ObjectLink
+        ObjectLink,
+        Carousel, 
+        Slide
     },
     data() {
         return {
-          //
         }
     },
     methods: {
@@ -44,7 +72,6 @@ export default {
         }
     },
     mounted() {
-        //
     }
 }
 </script>
@@ -60,9 +87,19 @@ export default {
     animation-fill-mode: forwards;
     opacity: 0;
 }
+.VueCarousel {
+    width: 100%;
+    height: 10rem;
+}
 .popup-item_image {
     position: relative;
     width: 100%;
+    width: 18rem;
+    height: 10rem;
+}
+.popup-item_image::after {
+    content: '';
+    display: block;
     padding-top: 57%;
 }
 .popup-item_image img {

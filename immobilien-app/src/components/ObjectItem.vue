@@ -1,8 +1,28 @@
 <template>
     <li class="object-item" ref="el" :class="{active: active}">
-        <div class="object-item_image">
+        <Carousel v-if="object.gallery.length"
+        :perPage="1" 
+        :navigationEnabled="true" 
+        :paginationActiveColor="'#ffffff'" 
+        :paginationColor="'rgba(255,255,255,.4)'"
+        :paginationPadding="0"
+        :paginationSize="8" >
+            <Slide>
+                <div class="object-item_image">
+                    <img :src="object.thumbnail" :alt="object.name">
+                </div>
+            </Slide>
+            <Slide v-for="image in object.gallery" :key="image">
+                <div class="object-item_image">
+                    <img :src="image" :alt="object.name">
+                </div>
+            </Slide>
+        </Carousel>
+        
+        <div v-else class="object-item_image single">
             <img :src="object.thumbnail" :alt="object.name">
         </div>
+
         <div class="object-item_content">
             <div class="object-item_location">
                 {{location}}
@@ -29,6 +49,7 @@
 
 <script>
 import ObjectLink from '@/components/ObjectLink'
+import { Carousel, Slide } from 'vue-carousel'
 export default {
     props: {
         object: {
@@ -49,7 +70,9 @@ export default {
         }
     },
     components: {
-        ObjectLink
+        ObjectLink,
+        Carousel,
+        Slide
     },
     data() {
         return {
@@ -90,7 +113,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
     .object-item {
         direction: ltr;
         width: 100%;
@@ -126,12 +149,66 @@ export default {
     }
     .object-item_image {
         position: relative;
+        width: 100%;
+    }
+    .object-item_image.single {
         width: 45%;
     }
     .object-item_location {
         color: #767676;
         text-transform: uppercase;
         font-family: 'Cormorant Garamond';
+    }
+    .VueCarousel {
+        width: 45%;
+    }
+    .VueCarousel .VueCarousel-pagination {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+    .VueCarousel .VueCarousel-navigation  .VueCarousel-navigation-next,
+    .VueCarousel .VueCarousel-navigation  .VueCarousel-navigation-prev {
+        transform: translateY(-50%) translateX(-.63rem);
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 3.18rem;
+        height: 2rem;
+        color: transparent;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-color: rgba(255,255,255,.8); 
+        border-radius: 1rem;
+    }
+    .VueCarousel .VueCarousel-navigation  .VueCarousel-navigation-next img,
+    .VueCarousel .VueCarousel-navigation  .VueCarousel-navigation-prev img {
+        display: none !important;
+    }
+    .VueCarousel .VueCarousel-navigation  .VueCarousel-navigation-prev {
+        transform: translateY(-50%) translateX(.63rem);
+    }
+    .VueCarousel .VueCarousel-navigation  .VueCarousel-navigation-prev::after,
+    .VueCarousel .VueCarousel-navigation  .VueCarousel-navigation-next::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -60%) rotate(45deg);
+        width: .63rem;
+        height: .63rem;
+        border-bottom: 2px solid #000;
+        border-left: 2px solid #000;
+        box-sizing: border-box;
+    }
+    .VueCarousel .VueCarousel-navigation  .VueCarousel-navigation-next::after {
+        transform: translate(-50%, -60%) scaleX(-1) rotate(45deg) ;
+    }
+    .VueCarousel .VueCarousel-pagination .VueCarousel-dot {
+        margin: .3rem .3rem .8rem .3rem !important;
+        width: .5rem;
+        height: .5rem;
+        padding: 0;
     }
     .object-item_title h3 {
         font-size: 1.38rem;

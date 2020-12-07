@@ -96,6 +96,11 @@ body {
 
 //scroll 
 
+#my-scrollbar {
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+}
 ::-webkit-scrollbar {
     width: 6px;
 }

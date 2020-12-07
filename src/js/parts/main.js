@@ -1,9 +1,30 @@
 import $ from "jquery";
+import Scrollbar from 'smooth-scrollbar';
+import OverscrollPlugin from 'smooth-scrollbar/dist/plugins/overscroll';
 
-$(window).bind('scroll', () => {
+const options = {
+    plugins: { overscroll: 
+        {
+            effect: 'bounce',
+            damping: 0.15,
+            maxOverscroll: 100
+        } 
+    }
+};
+Scrollbar.use(OverscrollPlugin);
+if(!$('immobilien-app').length){
+    Scrollbar.init(document.querySelector('#my-scrollbar'), options);
+}
+
+
+// $(window).bind('scroll', () => {
+//     changeHeader();
+// });
+const animate = () => {
     changeHeader();
-});
-changeHeader();
+    requestAnimationFrame(animate);
+};
+animate();
 function changeHeader() {
     const elems = $('[data-change-header]');
     if(elems.length) {

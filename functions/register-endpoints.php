@@ -8,14 +8,24 @@ function objects_route () {
         'callback' => 'my_awesome_func',
         'permission_callback' =>  '__return_true'
     ) );
-    // register_rest_route( 'objects-list/v1', '/objects/(?P<id>\d+)', array(
-    //     'methods' => 'GET',
-    //     'callback' => 'get_object',
-    //     'permission_callback' =>  '__return_true'
-    // ) );
+    register_rest_route( 'objects-list/v1', '/contents/(?P<id>\d+)', array(
+        'methods' => 'GET',
+        'callback' => 'get_object',
+        'permission_callback' =>  '__return_true'
+    ) );
 }
-function get_object() {
-    
+function get_object($data) {
+    $id = $data['id'];
+    global $post;
+    $post = $id;
+    setup_postdata($post);
+    ob_start();
+    get_template_part('templates/parts/single-post-content');
+    $html = ob_get_clean();
+    return json_encode(array(
+        'html' => $html
+    ));
+    wp_reset_postdata();
 }
 function my_awesome_func ($data) {
     $loc = $data['loc'];
@@ -65,6 +75,13 @@ function my_awesome_func ($data) {
         else: 
             $object['thumbnail'] = get_field('image_-_placeholder', 'option');
         endif;
+        $object['gallery'] = array();
+        if(get_field('gallery')): 
+            while(have_rows('gallery')):the_row();
+                $object['gallery'][] = get_sub_field('image');
+            endwhile;
+        endif;
+
         $object['coords'] = array(
             'lng' => get_field('longitude'),
             'lat' => get_field('latitude')

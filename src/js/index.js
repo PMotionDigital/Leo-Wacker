@@ -2,6 +2,7 @@
 import './parts/main';
 import './parts/blocks/our-team';
 import './parts/blocks/chose-list';
+import './parts/formular';
 
 // animation 
 import './parts/animation/image-hover';

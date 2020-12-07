@@ -21,6 +21,14 @@ const titleAnimate = () => {
     });
 };
 
-$(window).bind('scroll', () => {
+const animate = () => {
     titleAnimate();
-});
+    requestAnimationFrame(animate);
+};
+if(titles.length) {
+    animate();
+}
+
+// $(window).bind('scroll', () => {
+//     titleAnimate();
+// });

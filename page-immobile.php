@@ -12,7 +12,7 @@ get_header();
 
 ?> 
 <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/immobilien-app/dist/css/app.css">
-<input type="hidden" id="current_locale_" value="<?php echo pll_current_language(); ?>">
+<input type="hidden" id="current_url_" value="<?php echo get_site_url(); ?>">
 <div class="app-wrapper">
     <immobilien-app></immobilien-app>
 </div>

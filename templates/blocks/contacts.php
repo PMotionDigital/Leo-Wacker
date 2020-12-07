@@ -7,7 +7,7 @@
                     if(get_field('заголовок')): 
                         the_field('заголовок'); 
                     else: 
-                        the_field('заголовок', 'option');
+                        the_field('заголовок', pll_current_language());
                     endif;
                     ?></h2>
                 </div>
@@ -19,7 +19,7 @@
                 if(get_field('изображение')):
                     echo wp_get_attachment_image( get_field('изображение'), 'full'); 
                 else:
-                    echo wp_get_attachment_image( get_field('изображение', 'option'), 'full'); 
+                    echo wp_get_attachment_image( get_field('изображение', pll_current_language()), 'full'); 
                 endif; ?>
             </div>
             <div class="contacts-block_contacts col-lg-6 col-xs-12" data-parallax="7">
@@ -44,10 +44,10 @@
                     </li>
                     <?php endwhile; ?>
                 </ul> 
-                <?php elseif(have_rows('контакты', 'option')): 
+                <?php elseif(have_rows('контакты', pll_current_language())): 
                 $prev_name = ''; ?>
                 <ul class="contacts-block_list">
-                    <?php while(have_rows('контакты', 'option')):the_row(); 
+                    <?php while(have_rows('контакты', pll_current_language())):the_row(); 
                     $cur_name = get_sub_field('текст'); 
                     $empty = '';
                     if($prev_name == $cur_name) {
@@ -71,10 +71,10 @@
                     <a class="button blue" href="<?php the_field('кнопка_1_url') ?>"><?php the_field('кнопка_1_текст') ?></a>
                     <a class="button blue" href="<?php the_field('кнопка_2_url') ?>"><?php the_field('кнопка_2_текст') ?></a>
                 </div>
-                <?php elseif(get_field('кнопка_1_текст', 'option') || get_field('кнопка_2_текст', 'option')): ?>
+                <?php elseif(get_field('кнопка_1_текст', pll_current_language()) || get_field('кнопка_2_текст', pll_current_language())): ?>
                 <div class="contacts-block_buttons">
-                    <a class="button blue" href="<?php the_field('кнопка_1_url', 'option') ?>"><?php the_field('кнопка_1_текст', 'option') ?></a>
-                    <a class="button blue" href="<?php the_field('кнопка_2_url', 'option') ?>"><?php the_field('кнопка_2_текст', 'option') ?></a>
+                    <a class="button blue" href="<?php the_field('кнопка_1_url', pll_current_language()) ?>"><?php the_field('кнопка_1_текст', pll_current_language()) ?></a>
+                    <a class="button blue" href="<?php the_field('кнопка_2_url', pll_current_language()) ?>"><?php the_field('кнопка_2_текст', pll_current_language()) ?></a>
                 </div>
                 <?php endif; ?>
             </div>
