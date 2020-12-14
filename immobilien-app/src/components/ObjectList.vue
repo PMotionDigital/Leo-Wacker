@@ -1,6 +1,6 @@
 <template>
 <div class="main-wrapper">
-  <div class="objects-wrapper">
+  <div class="objects-wrapper" :class="{mobile: mobile}">
     <div class="objects-controlls">
         <transition name="heightToggle">
             <div class="controlls" v-if="showControlls">
@@ -43,22 +43,56 @@
             <span>{{translations.found[locale]}}: {{filteredObjects.length}}</span>
         </div>
     </div>
-    <p v-if="loading">
-        {{loadingMessage}}
-    </p>
-    <ul class="objects" v-else-if="filteredObjects.length">
-        <ObjectItem 
-            
-            v-on:pass-id="loadPost"
-            v-for="object in filteredObjects" 
-            v-bind:key="object.id" 
-            v-bind:object="object" 
+   
+    <div class="app-loader" v-if="loading">
+    
+    </div>
+    <div class="objects-container"  v-else-if="filteredObjects.length">
+        <MobileObjects 
+            v-if="mobile"
             v-bind:translations="translations"
             v-bind:locale="locale"
-            v-bind:active="activeElement == object.id"
-            @click.native="scrollTo(object)"
-        />
-    </ul>
+            v-bind:activeId="activeElement"
+            v-bind:objects="filteredObjects"
+            v-on:slider-change="scrollTo"
+            v-on:pass-id="loadPost" />
+
+        <ul v-if="!mobile" class="objects">
+            <ObjectItem     
+                v-on:pass-id="loadPost"
+                v-for="object in filteredObjects" 
+                v-bind:key="object.id" 
+                v-bind:slider="true"
+                v-bind:object="object" 
+                v-bind:translations="translations"
+                v-bind:locale="locale"
+                v-bind:active="activeElement == object.id"
+                @click.native="scrollTo(object)"
+            />
+        </ul>
+        <div v-else class="objects-draggable" :class="{opened: openList}">
+            <div class="objects-button" @click="openList = !openList">
+                {{translations.found[locale]}}: {{filteredObjects.length}}
+            </div>
+            <ul class="objects">
+                
+                <ObjectItem 
+                    
+                    v-on:pass-id="loadPost"
+                    v-for="object in filteredObjects" 
+                    v-bind:key="object.id" 
+                    v-bind:slider="true"
+                    v-bind:mobile="mobile"
+                    v-bind:object="object" 
+                    v-bind:translations="translations"
+                    v-bind:locale="locale"
+                    v-bind:active="activeElement == object.id"
+                    @click.native="scrollTo(object)"
+                />
+            </ul>
+        </div>
+    </div>
+    
     <p v-else>
         {{emptyMessage}}
     </p>
@@ -69,9 +103,11 @@
   v-if="objects.length" 
   v-on:scroll-to="scrollTo" 
   v-bind:objects="filteredObjects"
-  v-bind:active="activeElement" />
+  v-bind:active="activeElement"
+  v-bind:mobile="mobile" />
 
   <PostContainer v-if="postData" 
+  v-bind:mobile="mobile"
   v-bind:objects="objects" 
   v-bind:postData="postData" 
   v-bind:translations="translations"
@@ -87,6 +123,7 @@ import VueRangeSlider from 'vue-range-component'
 import ObjectItem from '@/components/ObjectItem'
 import MapDisplay from '@/components/MapDisplay'
 import PostContainer from '@/components/PostContainer'
+import MobileObjects from '@/components/MobileObjects'
 
 export default {
     data() {
@@ -95,7 +132,9 @@ export default {
             filters: [],
             selects: [],
             loading: true,
-            loadingMessage: 'Loading...',
+            mobile: true,
+            openList: false,
+            //loadingMessage: 'Loading...',
             emptyMessage: 'Not Found',
             showControlls: false,
             activeElement: 0,
@@ -174,6 +213,11 @@ export default {
                     en: 'Berlin',
                     de: 'Berlin',
                     ru: 'Берлин'
+                },
+                'send' : {
+                    de: 'Anfrage senden',
+                    ru: 'Отправить запрос',
+                    en: 'Send inquiry'
                 }
             }
         }
@@ -182,10 +226,15 @@ export default {
         ObjectItem,
         VueRangeSlider,
         MapDisplay,
-        PostContainer
+        PostContainer,
+        MobileObjects
     },
     async created() {
         // GET request using fetch with async/await
+        const mob = document.querySelector('#is_mobile_');
+        if(mob) {
+            this.mobile = mob.value;
+        }
         const loc = document.getElementById('current_locale_');
         const urlEl = document.getElementById('current_url_');
         let locVal = 1;
@@ -257,11 +306,14 @@ export default {
             this.selects.push(select)
         },
         scrollTo(obj) {
-            this.activeElement = obj.id
-            console.log(this.activeElement, obj);
+            if(this.activeElement != obj.id) {
+                this.activeElement = obj.id
+                console.log('one');
+            }
         },
         loadPost(data){
             this.postData = data;
+            this.openList = false;
         },
         declOfNum(number, titles) {
             const cases = [2, 0, 1, 1, 1, 2];
@@ -317,13 +369,69 @@ export default {
         overflow-x: hidden;
         padding: 0 1.88rem;
         flex-grow: 2;
+        height: 100%;
         position: relative;
         direction: rtl;
+    }
+    .objects-container {
+        flex-grow: 2;
+        overflow: hidden;
     }
     .objects-wrapper {
         height: calc(100vh - 4rem);
         display: flex;
         flex-direction: column;
+    }
+    .objects-wrapper.mobile {
+        height: calc(100% - 2rem);
+        position: fixed;
+        left: 0;
+        top: 2rem;
+        width: 100%;
+        pointer-events: none;
+        z-index: 9999;
+    }
+    .objects-button {
+        padding: 1rem;
+        border-radius: 1rem 1rem 0 0;
+        background-color: #fff;
+        text-align: center;
+        position: absolute;
+        left: 0;
+        bottom: 100%;
+        width: 100%;
+        pointer-events: all;
+    }
+    .objects-button::after {
+        content: '';
+        position: absolute;
+        top: .25rem;
+        left: calc(50% - 25px);
+        width: 50px;
+        height: .25rem;
+        background: #E4E4E4;
+        border-radius: 50em;
+    }
+    .objects-draggable {
+        position: fixed;
+        left: 0;
+        top: 100%;
+        height: 70%;
+        transition: .25s ease-out;
+    }
+    .objects-draggable.opened {
+        transform: translate3d(0,-100%,0);
+    }
+    .objects-wrapper.mobile ul.objects {
+        background: #fff;
+        pointer-events: all;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+        height: 100%;
+        padding: calc(100vw / 24);
+    }
+    .objects-wrapper.mobile ul.objects .VueCarousel {
+        width: 33.33%;
     }
     .filters, .selects {
         display: flex;
@@ -351,7 +459,9 @@ export default {
         padding: 0.63rem;
     }
     .objects-controlls {
+        background-color: #fff;
         padding: 1.25rem;
+        pointer-events: all;
     }
     .objects-wrapper {
         width: 50vw;

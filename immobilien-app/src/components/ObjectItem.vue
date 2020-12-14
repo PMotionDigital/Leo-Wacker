@@ -1,6 +1,6 @@
 <template>
-    <li class="object-item" ref="el" :class="{active: active}">
-        <Carousel v-if="object.gallery.length"
+    <li class="object-item" ref="el" :class="{active: active, mobile: !slider}">
+        <Carousel v-if="object.gallery.length && slider == true"
         :perPage="1" 
         :navigationEnabled="true" 
         :paginationActiveColor="'#ffffff'" 
@@ -24,7 +24,7 @@
         </div>
 
         <div class="object-item_content">
-            <div class="object-item_location">
+            <div v-if="slider" class="object-item_location">
                 {{location}}
             </div>
             <div class="object-item_title">
@@ -52,6 +52,10 @@ import ObjectLink from '@/components/ObjectLink'
 import { Carousel, Slide } from 'vue-carousel'
 export default {
     props: {
+        slider: {
+            type: Boolean,
+            required: false
+        },
         object: {
             type: Object,
             required: true
@@ -65,6 +69,10 @@ export default {
             required: true
         },
         active: {
+            type: Boolean,
+            required: true
+        },
+        mobile: {
             type: Boolean,
             required: true
         }
@@ -88,12 +96,15 @@ export default {
     },
     methods: {
        scrollIntoView(el) {
-            const parent = el.closest('ul');
-            parent.scrollTo({
-                top: el.offsetTop,
-                left: 0,
-                behavior: 'smooth'
-            });     
+            if(!this.mobile) {
+                const parent = el.closest('ul');
+                parent.scrollTo({    
+                    top: el.offsetTop,
+                    left: 0,
+                    behavior: 'smooth'
+                });  
+            }
+               
         },
         passId(data){
             this.$emit('pass-id', data);
@@ -104,8 +115,8 @@ export default {
         }
     },
     watch: {
-        active: function(val) {
-            if(val){
+        active: function(val, oldVal) {
+            if(val != oldVal){
                 this.scrollIntoView(this.$refs.el) 
             }
         }
@@ -114,6 +125,9 @@ export default {
 </script>
 
 <style>
+    .slider-wrap .VueCarousel-wrapper {
+        overflow: visible !important;
+    }
     .object-item {
         direction: ltr;
         width: 100%;
@@ -284,5 +298,47 @@ export default {
     .object-item_price .price {
         font-size: 1.38rem;
         font-weight: bold;
+    }
+
+    .object-item.mobile {
+        height: 100%;
+        border: 0px;
+    }
+    .mobile .object-item_image {
+        width: 33.33%;
+    }
+    .mobile .object-item_title h3 {
+        padding-top: 0;
+        font-size: .81rem;
+        padding-bottom: .6rem;
+    }
+    .mobile .object-item_props {
+        padding: .6rem  0;
+    }
+    .mobile .object-item_price .price {
+        font-size: 1rem;
+    }
+    .mobile .VueCarousel {
+        width: 33.33%;
+    }
+    .objects-draggable .VueCarousel .object-item_image {
+        width: 100%;
+    }
+    .objects-draggable  .VueCarousel .object-item_image::after{
+        padding-top: 100%;
+    }
+    .objects-draggable .VueCarousel-navigation {
+        display: none;
+    }
+    .objects-draggable .object-item_content {
+        padding-right: 0 !important;
+    }
+    .mobile .object-item_content {
+        width: 66.66%;
+        padding: .45rem .63rem;
+        font-size: .81rem;
+    }
+    .mobile .object-item_location {
+        display: none;
     }
 </style>

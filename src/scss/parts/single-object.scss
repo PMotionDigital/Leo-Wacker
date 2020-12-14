@@ -1,0 +1,30 @@
+.post_fields {
+    font-size: 1.25rem;
+    line-height: 2.25rem;
+    width: 66.6%;
+    padding-top: 1.25rem;
+    padding-bottom: 3.5rem;
+    &--selected {
+        width: 33.3%;
+    }
+}
+.post_fields-wrap {
+    display: flex;
+}
+.post_text-content {
+    font-size: 1.25rem;
+    line-height: 1.5;
+    padding-bottom: 4rem;
+    p, ul, ol, table, div {
+        margin-bottom: 1rem;
+    }
+    iframe, video {
+        width: 100%;
+    }
+    h1, h2, h3, h4, h5 {
+        font-family: 'Cormorant Garamond';
+        font-size: 2.25rem;
+        margin-bottom: 1rem;
+        padding-top: 1rem;
+    }
+}

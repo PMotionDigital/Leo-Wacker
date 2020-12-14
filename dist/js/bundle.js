@@ -20566,6 +20566,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 /***/ }),
 
 /***/ "./src/js/parts/animation/image-hover.js":
@@ -20822,6 +20823,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()('.choselist-block [data-link]').on
 jquery__WEBPACK_IMPORTED_MODULE_0___default()('[data-modal="formular"] [data-close]').on('click', (e) => {
     e.preventDefault();
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('[data-modal="formular"]').removeClass('opened');
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('html, body').css('overflow', 'auto');
     setTimeout(() => {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('[data-modal="formular"] .loader').removeClass('hide');
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('[data-modal="formular"] .formular-block').remove();
@@ -20830,6 +20832,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()('[data-modal="formular"] [data-clo
 function openFormular(type) {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('[data-modal="formular"]').addClass('opened');
     const loader = jquery__WEBPACK_IMPORTED_MODULE_0___default()('[data-modal="formular"] .loader');
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('html, body').css('overflow', 'hidden');
     jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
         url: `${window.location.origin}/wp-admin/admin-ajax.php`,
         method: 'GET',
@@ -20919,10 +20922,24 @@ if(jquery__WEBPACK_IMPORTED_MODULE_0___default()('.glide-slider').length){
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _message__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./message */ "./src/js/parts/message.js");
+
 
 let currentStep = 0;
 let flag = true;
+let valid = false;
+let skip = false;
+let skipStep = -1;
+let submitForm = false;
 
+let messages = {
+    ru: 'Пожалуйста, заполните все поля',
+    en: 'Please fill in all fields',
+    de: 'Bitte füllen Sie alle Felder aus'
+};
+let locale = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#current_locale_').val();
+
+let formularData = {};
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on('click', '.formular-form_item', (e) => {
     e.preventDefault();
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(e.currentTarget)
@@ -20934,7 +20951,10 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on('click', '.formular-b
     e.preventDefault();
     const direction = jquery__WEBPACK_IMPORTED_MODULE_0___default()(e.currentTarget).data('btn');
     const prevStep = currentStep;
-    if(flag){
+    if(direction == 'next' && submitForm) {
+        submitFormAction();
+        console.log('here');
+    } else if(flag){
         nextStep(direction);
         if(prevStep !== currentStep) {
             flag = false;
@@ -20957,22 +20977,155 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on('click', '.formular-b
 });
 
 function nextStep(dir) {
+    setData(currentStep);
     const length = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.formular-step').length;
-    if(dir == 'next' && currentStep !== length -1) {
-        currentStep += 1;
-    } else if(dir == 'prev' && currentStep !== 0) {
-        currentStep -= 1;
+    if(valid){
+        if(dir == 'next' && currentStep !== length -1) {
+            currentStep += 1;
+            if(skipStep == currentStep) {
+                currentStep += 1;
+            }
+        } else if(dir == 'prev' && currentStep !== 0) {
+            currentStep -= 1;
+            submitForm = false;
+            if(skipStep == currentStep) {
+                currentStep -= 1;
+            }
+        }
+        const translate = (100 / (length - 1)).toFixed(2) * (currentStep);
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('.formular-block_progress-target').css({
+            transform: `translateX(${translate}%)`
+        });
     }
-    const translate = (100 / (length - 1)).toFixed(2) * (currentStep);
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.formular-block_progress-target').css({
-        transform: `translateX(${translate}%)`
-    });
-
 }
-
+function setData(step) {
+    const stepWrap = jquery__WEBPACK_IMPORTED_MODULE_0___default()(`.formular-step[data-step="${currentStep}"]`);
+    const title = stepWrap.find('.title h2').text().trim();
+    let stepValue = '';
+    if(stepWrap.find('.formular-form_item').length) {
+        stepValue = stepWrap.find('.formular-form_item.active .formular-form_item-title').text().trim();
+        if(!stepValue || stepValue == '') {
+            valid = false;
+            _message__WEBPACK_IMPORTED_MODULE_1__["default"].setMessage(messages[locale]);
+        } else {
+            valid = true;
+            formularData[title] = stepValue;
+        }
+        if(stepWrap.find('.formular-form_item.active [data-skip]').length) {
+            skip = true;
+            skipStep = currentStep + 1;
+        } else {
+            skip = false;
+            skipStep = -1;
+        }
+    } else if (stepWrap.find('.formular-form_input').length) {
+        const inputs = stepWrap.find('.formular-form_input');
+        inputs.each((i, e) => {
+            const label = jquery__WEBPACK_IMPORTED_MODULE_0___default()(e).find('.label').text().trim();
+            let val = jquery__WEBPACK_IMPORTED_MODULE_0___default()(e).find('input').val();
+            if(jquery__WEBPACK_IMPORTED_MODULE_0___default()(e).find('[type="radio"]').length){
+                val = jquery__WEBPACK_IMPORTED_MODULE_0___default()(e).find('input:checked').siblings('p').text().trim();
+            }
+            if(!val || val == '') {
+                valid = false;
+                _message__WEBPACK_IMPORTED_MODULE_1__["default"].setMessage(messages[locale]);
+            } else {
+                valid = true;
+                formularData[label] = val;
+            }
+            
+        });
+    } else if (stepWrap.find('.formular-form.lage').length) {
+        const inputs = stepWrap.find('.lage-form_input input');
+        let addressString = '';
+        inputs.each((i, e) => {
+            if(jquery__WEBPACK_IMPORTED_MODULE_0___default()(e).val()) {
+                addressString += `${jquery__WEBPACK_IMPORTED_MODULE_0___default()(e).attr('placeholder')}: ${jquery__WEBPACK_IMPORTED_MODULE_0___default()(e).val()}, `;
+            }
+        });
+        
+        if(!addressString || addressString == '') {
+            valid = false;
+            _message__WEBPACK_IMPORTED_MODULE_1__["default"].setMessage(messages[locale]);
+        } else {
+            valid = true;
+            formularData[title] = addressString;
+        }
+    } else if (stepWrap.find('.formular-form_radio').length) {
+        const rows = stepWrap.find('.formular-form_radio');
+        let rowString = '';
+        rows.each((i, e) => {
+            const rowTitle = jquery__WEBPACK_IMPORTED_MODULE_0___default()(e).find('.formular-form_radio-title:not(.head)').text().trim();
+            const rowValue = jquery__WEBPACK_IMPORTED_MODULE_0___default()(e).find('[type="radio"]:checked').val();
+            if(rowValue){
+                rowString += `${rowTitle}: ${rowValue}; `;
+            }
+            
+        });
+        if(!rowString || rowString == '') {
+            valid = false;
+            _message__WEBPACK_IMPORTED_MODULE_1__["default"].setMessage(messages[locale]);
+        } else {
+            valid = true;
+            formularData[title] = rowString;
+        }
+        
+    }
+    
+    if(step == jquery__WEBPACK_IMPORTED_MODULE_0___default()('.formular-step').length - 2) {
+        submitForm = true;
+    } else {
+        submitForm = false;
+    }
+    console.log(submitForm, step);
+    let dataString = '';
+    for(let data in formularData) {
+        dataString += `${data}: ${formularData[data]}; \n`;
+    }
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('[name="your-data"]').val(dataString);
+}
 jquery__WEBPACK_IMPORTED_MODULE_0___default()('[data-modal="formular"] [data-close]').on('click', (e) => {
     currentStep = 0;
+    formularData = {};
+    submitForm = false;
 });
+
+function submitFormAction() {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.formular-step.active form').find('input[type="submit"]').trigger( 'click' );
+}
+
+
+document.addEventListener('wpcf7mailsent', function(event) {
+    setTimeout(() => {
+        let formText = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.wpcf7-response-output').text();
+        _message__WEBPACK_IMPORTED_MODULE_1__["default"].setMessage(formText);
+    }, 500);
+}, false);
+document.addEventListener('wpcf7invalid', function(event) {
+    setTimeout(() => {
+        let formText = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.wpcf7-response-output').text();
+        _message__WEBPACK_IMPORTED_MODULE_1__["default"].setMessage(formText);
+    }, 500);
+}, false);
+document.addEventListener('wpcf7spam', function(event) {
+    setTimeout(() => {
+        let formText = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.wpcf7-response-output').text();
+        _message__WEBPACK_IMPORTED_MODULE_1__["default"].setMessage(formText);
+    }, 500);
+}, false);
+document.addEventListener('wpcf7mailfailed', function(event) {
+    setTimeout(() => {
+        let formText = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.wpcf7-response-output').text();
+        _message__WEBPACK_IMPORTED_MODULE_1__["default"].setMessage(formText);
+    }, 500);
+}, false);
+document.addEventListener('wpcf7submit', function(event) {
+    setTimeout(() => {
+        let formText = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.wpcf7-response-output').text();
+        _message__WEBPACK_IMPORTED_MODULE_1__["default"].setMessage(formText);
+    }, 500);
+    
+}, false);
 
 /***/ }),
 
@@ -21004,19 +21157,16 @@ const options = {
     }
 };
 smooth_scrollbar__WEBPACK_IMPORTED_MODULE_1__["default"].use(smooth_scrollbar_dist_plugins_overscroll__WEBPACK_IMPORTED_MODULE_2___default.a);
-if(!jquery__WEBPACK_IMPORTED_MODULE_0___default()('immobilien-app').length){
+if(!jquery__WEBPACK_IMPORTED_MODULE_0___default()('immobilien-app').length && jquery__WEBPACK_IMPORTED_MODULE_0___default()('#my-scrollbar').length){
     smooth_scrollbar__WEBPACK_IMPORTED_MODULE_1__["default"].init(document.querySelector('#my-scrollbar'), options);
 }
 
-
-// $(window).bind('scroll', () => {
-//     changeHeader();
-// });
 const animate = () => {
     changeHeader();
     requestAnimationFrame(animate);
 };
 animate();
+
 function changeHeader() {
     const elems = jquery__WEBPACK_IMPORTED_MODULE_0___default()('[data-change-header]');
     if(elems.length) {
@@ -21035,6 +21185,77 @@ function changeHeader() {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('.site-header').removeClass('transparent');
     }
 }
+let menuOpened = false;
+jquery__WEBPACK_IMPORTED_MODULE_0___default()('[data-menu]').on('touchstart', (e) => {
+    e.preventDefault();
+    console.log('touch');
+    const cont = jquery__WEBPACK_IMPORTED_MODULE_0___default()('[data-menu-container]');
+    const contWrap = cont.find('.mobile-menu-content');
+    if(menuOpened) {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()(e.currentTarget).removeClass('opened');
+        contWrap.css('opacity', '0');
+        setTimeout(() => {
+            cont.stop().animate({
+                height: 0
+            }, 300, () => {
+                cont.removeClass('opened');
+                cont.attr('style', '');
+                menuOpened = false;
+                contWrap.css('opacity', '0');
+            });
+        }, 250);
+        
+    } else {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()(e.currentTarget).addClass('opened');
+        contWrap.css('opacity', '0');
+        
+        cont.stop().animate({
+            height: window.innerHeight - 32
+        }, 300, () => {
+            cont.addClass('opened');
+            cont.attr('style', '');
+            menuOpened = true;
+            contWrap.css('opacity', '1');
+        });
+    }
+
+})
+
+/***/ }),
+
+/***/ "./src/js/parts/message.js":
+/*!*********************************!*\
+  !*** ./src/js/parts/message.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    setMessage: (text) => {
+        if(!jquery__WEBPACK_IMPORTED_MODULE_0___default()('#massage-block').length) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').append(`
+            <div id="message-block">
+                <p class="message-block_text"></p>   
+            </div>  
+            `);
+        }
+        setTimeout(() => {
+            const mes = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#message-block');
+            mes.addClass('opened');
+            mes.find('.message-block_text').html(text);
+            setTimeout(() => {
+                mes.removeClass('opened');
+            }, 2500);
+        },100);
+    }
+});
+
 
 /***/ }),
 

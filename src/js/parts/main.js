@@ -12,19 +12,16 @@ const options = {
     }
 };
 Scrollbar.use(OverscrollPlugin);
-if(!$('immobilien-app').length){
+if(!$('immobilien-app').length && $('#my-scrollbar').length){
     Scrollbar.init(document.querySelector('#my-scrollbar'), options);
 }
 
-
-// $(window).bind('scroll', () => {
-//     changeHeader();
-// });
 const animate = () => {
     changeHeader();
     requestAnimationFrame(animate);
 };
 animate();
+
 function changeHeader() {
     const elems = $('[data-change-header]');
     if(elems.length) {
@@ -43,3 +40,38 @@ function changeHeader() {
         $('.site-header').removeClass('transparent');
     }
 }
+let menuOpened = false;
+$('[data-menu]').on('touchstart', (e) => {
+    e.preventDefault();
+    console.log('touch');
+    const cont = $('[data-menu-container]');
+    const contWrap = cont.find('.mobile-menu-content');
+    if(menuOpened) {
+        $(e.currentTarget).removeClass('opened');
+        contWrap.css('opacity', '0');
+        setTimeout(() => {
+            cont.stop().animate({
+                height: 0
+            }, 300, () => {
+                cont.removeClass('opened');
+                cont.attr('style', '');
+                menuOpened = false;
+                contWrap.css('opacity', '0');
+            });
+        }, 250);
+        
+    } else {
+        $(e.currentTarget).addClass('opened');
+        contWrap.css('opacity', '0');
+        
+        cont.stop().animate({
+            height: window.innerHeight - 32
+        }, 300, () => {
+            cont.addClass('opened');
+            cont.attr('style', '');
+            menuOpened = true;
+            contWrap.css('opacity', '1');
+        });
+    }
+
+})

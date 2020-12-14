@@ -20,8 +20,15 @@
     &.type-1 {
         font-size: 2.16rem;
     }
+    &.type-2 {
+        padding: 0.6rem 2rem;
+    }
     &.blue {
         background-color: $blue;
+        color: $white;
+    }
+    &.green {
+        background-color: $green;
         color: $white;
     }
     &.trans {

@@ -8,6 +8,7 @@ $('.choselist-block [data-link]').on('click', (e) => {
 $('[data-modal="formular"] [data-close]').on('click', (e) => {
     e.preventDefault();
     $('[data-modal="formular"]').removeClass('opened');
+    $('html, body').css('overflow', 'auto');
     setTimeout(() => {
         $('[data-modal="formular"] .loader').removeClass('hide');
         $('[data-modal="formular"] .formular-block').remove();
@@ -16,6 +17,7 @@ $('[data-modal="formular"] [data-close]').on('click', (e) => {
 function openFormular(type) {
     $('[data-modal="formular"]').addClass('opened');
     const loader = $('[data-modal="formular"] .loader');
+    $('html, body').css('overflow', 'hidden');
     $.ajax({
         url: `${window.location.origin}/wp-admin/admin-ajax.php`,
         method: 'GET',

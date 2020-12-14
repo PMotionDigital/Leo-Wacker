@@ -40,7 +40,15 @@
                             <?php the_sub_field('текст'); ?>:
                             <?php endif; $prev_name = $cur_name; ?>
                         </p>
-                        <p class="value"><?php the_sub_field('значение'); ?></p>
+                        <p class="value">
+                        <?php if($link): ?>
+                        <a href="<?php echo $link; ?>">
+                        <?php endif; 
+                         the_sub_field('значение');
+                        if($link): ?>
+                        </a>
+                        <?php endif; ?>
+                        </p>
                     </li>
                     <?php endwhile; ?>
                 </ul> 
@@ -61,7 +69,18 @@
                             <?php the_sub_field('текст'); ?>:
                             <?php endif; $prev_name = $cur_name; ?>
                         </p>
-                        <p class="value"><?php the_sub_field('значение'); ?></p>
+                        <?php 
+                        $link = get_sub_field('ссылка'); ?>
+                        
+                        <p class="value">
+                        <?php if($link): ?>
+                        <a href="<?php echo $link; ?>">
+                        <?php endif; 
+                         the_sub_field('значение');
+                        if($link): ?>
+                        </a>
+                        <?php endif; ?>
+                        </p>
                     </li>
                     <?php endwhile; ?>
                 </ul> 

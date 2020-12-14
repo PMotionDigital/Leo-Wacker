@@ -2,3 +2,50 @@
     padding-top: 4rem;
     min-height: calc(100vh - 4rem);
 }
+.mapboxgl-canvas-container::before,
+.app-loader::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: 5.5rem;
+    height: 5.5rem;
+    background-image: url(../img/loader.gif); 
+    background-size: contain;
+    background-position: center;
+    z-index: 999;
+    pointer-events: none;
+    transition: .25s ease-out;
+    opacity: 0;
+}
+.mapboxgl-canvas-container.loading::before,
+.app-loader::before {
+    opacity: 1;
+}
+.app-loader {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #fff;
+    z-index: 9999;
+}
+
+// notebook
+@media screen and (min-width: 1280px) and (max-width: 1440px) {}
+// small notebook && tablet landscape
+@media screen and (min-width: 1024px) and (max-width: 1279px) {}
+// tablet
+@media screen and (min-width: 768px) and (max-width: 1023px) {}
+// mobile landscape
+@media screen and (min-width: 320px) and (max-width: 767px) and (orientation: landscape) {}
+// mobile
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    .app-wrapper {
+        //padding-top: 2rem;
+        height: 100%;
+        padding-top: 0;
+    }
+}

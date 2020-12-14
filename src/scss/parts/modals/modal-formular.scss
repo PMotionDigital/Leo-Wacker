@@ -333,7 +333,7 @@
         outline: none;
         appearance: none;
         &::placeholder {
-            color: #3C3C3C;
+            color: rgba(#3C3C3C, .4);
         }
     }
     &_item {
@@ -417,5 +417,115 @@
 .formular-step {
     &:not(.active) {
         display: none;
+    }
+}
+
+.formular-form .wpcf7[role="form"] {
+    width: 100%;
+    form {
+        display: flex;
+        justify-content: center;
+        grid-gap: 1.25rem;
+        padding-top: 3rem;
+        
+        .label {
+            font-family: 'Cormorant Garamond';
+            font-size: 1.13rem;
+        }
+        .ajax-loader {
+            position: absolute;
+        }
+    }
+    [type="submit"] {
+        display: none;
+    }
+    .wpcf7-form-control-wrap {
+        display: block;
+        margin-top: 1rem;
+        &.your-data {
+            display: none;
+        }
+        input {
+            width: 100%;
+        }
+    }
+}
+.wpcf7-response-output {
+    display: none !important;
+}
+
+// notebook
+@media screen and (min-width: 1280px) and (max-width: 1440px) {}
+// small notebook && tablet landscape
+@media screen and (min-width: 1024px) and (max-width: 1279px) {}
+// tablet
+@media screen and (min-width: 768px) and (max-width: 1023px) {}
+// mobile landscape
+@media screen and (min-width: 320px) and (max-width: 767px) and (orientation: landscape) {}
+// mobile
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    [data-modal="formular"] {
+        max-height: 100%;
+        overflow-y: scroll;
+        scroll-padding: 0 0 4rem;
+        -webkit-overflow-scrolling: touch;
+        .padding {
+            height: 5.5rem;
+        }
+        .loader {
+            &_text {
+                font-size: 4rem;
+                &--load {
+
+                }
+            }
+        }
+        .formular-block {
+            padding-top: 5rem;
+        }
+        .formular-block_controlls {
+            [data-btn="next"] {
+                width: 100%;
+            }
+        }
+        .formular-block_progress {
+            margin-bottom: 2rem;
+        }
+        .formular-form {
+            height: auto;
+            flex-wrap: wrap;
+            min-height: 15rem;
+            justify-content: space-between;
+            &_input,
+            &_item {
+                min-width: 49%;
+                width: 49%;
+                margin-right: 0px !important;
+                margin-bottom: 0.4rem;
+            }
+            .lage-bg {
+                width: 97%;
+            }
+            .lage-form {
+                padding-top: 11rem;
+                grid-template-columns: repeat(4, 1fr);
+                grid-gap: .8rem;
+                padding-bottom: 3rem;
+                &_input:not(:last-child):not(:first-child) {
+                    grid-column: span 3;
+                }
+            }
+            .wpcf7[role="form"] form {
+                display: block;
+                padding-top: 0;
+                label {
+                    display: block;
+                    margin-bottom: 1rem;
+                }
+                .wpcf7-form-control-wrap {
+                    margin-top: 0.4rem;
+                }
+            }
+        }
     }
 }

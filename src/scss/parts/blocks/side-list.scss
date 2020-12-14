@@ -27,3 +27,40 @@
         box-shadow: none;
     }
 }
+
+// notebook
+@media screen and (min-width: 1280px) and (max-width: 1440px) {}
+// small notebook && tablet landscape
+@media screen and (min-width: 1024px) and (max-width: 1279px) {}
+// tablet
+@media screen and (min-width: 768px) and (max-width: 1023px) {}
+// mobile landscape
+@media screen and (min-width: 320px) and (max-width: 767px) and (orientation: landscape) {}
+// mobile
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    .sidelist-block {
+        &_image {
+            width: 100%;
+        }
+        &_title {
+            width: 100%;
+            margin-bottom: 3rem;
+        }
+        .about-block_list {
+            padding-left: calc(100vw / 24);
+            font-size: 1.5rem;
+        }
+        .about-block_list-title {
+            padding: calc(100vw / 24);
+            font-size: 1.1rem;
+            line-height: 2rem;
+        }
+        .about-block_list-wrap {
+            width: 100vw;
+            margin-left: calc(-100vw / 24);
+            .about-block_list-item {
+                padding-right: calc(100vw / 24);
+            }
+        }
+    }
+}

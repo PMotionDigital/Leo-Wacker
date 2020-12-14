@@ -73,3 +73,42 @@
         }
     }
 }
+
+// notebook
+@media screen and (min-width: 1280px) and (max-width: 1440px) {}
+// small notebook && tablet landscape
+@media screen and (min-width: 1024px) and (max-width: 1279px) {}
+// tablet
+@media screen and (min-width: 768px) and (max-width: 1023px) {}
+// mobile landscape
+@media screen and (min-width: 320px) and (max-width: 767px) and (orientation: landscape) {}
+// mobile
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    .team-block {
+        .padding {
+            padding: 0 1rem;  
+            width: 100vw;
+        }
+        &_slider {
+            padding-top: 3rem;
+        }
+        &_slider-item {
+            padding: 0 0.5rem; 
+            &-content {
+                padding: .8rem;
+                .team-content {
+                    font-size: 1.4rem;
+                }
+                .team-date {
+                    font-size: 1rem;
+                }
+                .team-desc {
+                    padding-right: 0;
+                    padding-top: 2rem;
+                    font-size: 1rem;
+                    line-height: 1.5;
+                }
+            } 
+        }
+    }
+}

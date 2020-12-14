@@ -55,6 +55,7 @@ function my_awesome_func ($data) {
         $object['lang'] = $lang;
         $object['name'] = get_the_title();
         $object['price'] = get_field('price');
+        $object['link'] = get_permalink(get_the_ID());
         //
         foreach($areas as $area){
             if($area['slug'] == get_field('area')){
@@ -71,14 +72,19 @@ function my_awesome_func ($data) {
         //$object['type_name'] = wp_get_post_terms(  $object['id'], 'object_type')[0]->name;
         //$object['type_id'] = wp_get_post_terms(  $object['id'], 'object_type')[0]->term_id;
         if(get_the_post_thumbnail_url()):
-            $object['thumbnail'] = get_the_post_thumbnail_url();
+            $object['thumbnail'] = get_the_post_thumbnail_url($post, 'medium');
+            $object['thumbnail_large'] = get_the_post_thumbnail_url($post, 'full');
         else: 
             $object['thumbnail'] = get_field('image_-_placeholder', 'option');
+            $object['thumbnail_large'] = get_field('image_-_placeholder', 'option');
         endif;
         $object['gallery'] = array();
+        $object['gallery_large'] = array();
+
         if(get_field('gallery')): 
             while(have_rows('gallery')):the_row();
-                $object['gallery'][] = get_sub_field('image');
+                $object['gallery'][] = wp_get_attachment_image_url( get_sub_field('image'), 'medium');
+                $object['gallery_large'][] = wp_get_attachment_image_url( get_sub_field('image'), 'large');
             endwhile;
         endif;
 

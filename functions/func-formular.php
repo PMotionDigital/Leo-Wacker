@@ -11,7 +11,7 @@ function get_formular() {
     // }
     ob_start(); ?>
 
-    <div class="formular-block col-lg-7 loading">
+    <div class="formular-block col-lg-7 col-xs-11 loading">
 
     
     <?php
@@ -25,7 +25,9 @@ function get_formular() {
     <div class="formular-block_progress">
         <span class="formular-block_progress-target"></span>
     </div>
-
+        <?php if(wp_is_mobile()): ?>
+            <div class="padding"></div>
+        <?php endif; ?>
     </div>
     <?php
     $footer = ob_get_clean();
@@ -444,7 +446,7 @@ function get_wohnung($lang) {
                 <div class="formular-form_item-image">
                     <img src="<?php the_field('арендованый_нет_изображение', 'option'); ?>" alt="<?php the_field('текст_'.$lang); ?>">
                 </div>
-                <div class="formular-form_item-title">
+                <div class="formular-form_item-title" data-skip>
                     <?php the_field('арендованный_нет_'.$lang, 'option'); ?>
                 </div>
             </div>       

@@ -20,3 +20,31 @@
         margin-bottom: 3.8rem;
     }
 }
+
+// notebook
+@media screen and (min-width: 1280px) and (max-width: 1440px) {}
+// small notebook && tablet landscape
+@media screen and (min-width: 1024px) and (max-width: 1279px) {}
+// tablet
+@media screen and (min-width: 768px) and (max-width: 1023px) {}
+// mobile landscape
+@media screen and (min-width: 320px) and (max-width: 767px) and (orientation: landscape) {}
+// mobile
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    .fullcover-block {
+        padding: 5.5rem calc(100vw / 24);
+        &_subtitle {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        &_button {
+            width: 100%;
+            .button {
+                text-align: center;
+                width: 100%;
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+        }
+    }
+}

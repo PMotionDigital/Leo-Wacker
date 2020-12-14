@@ -40,7 +40,7 @@ if (function_exists('acf_add_options_page')) {
 }
 
 // includes 
-
+include 'functions/func-admin-filter.php';
 include 'functions/register-blocks.php';
 include 'functions/register-post-types.php';
 include 'functions/register-endpoints.php';

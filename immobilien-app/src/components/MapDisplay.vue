@@ -1,5 +1,5 @@
 <template>
-  <div class="map-container">
+  <div class="map-container" :class="{mobile: mobile}">
     <MglMap 
       :accessToken="accessToken" 
       :mapStyle="mapStyle"  
@@ -13,7 +13,7 @@
         >
         
         <p @click="flyTo(object)" :class="{active: active == object.id}" slot="marker" class="map-marker">€ {{object.price}}</p>
-         <MglPopup :maxWidth="'18px'" @open="openPop(object.id)">
+         <MglPopup v-if="!mobile" :maxWidth="'18px'" @open="openPop(object.id)">
           <MapPopup  v-on:pass-id="passId" v-bind:show="openedPopup == object.id" v-bind:object="object" />
         </MglPopup>
       </MglMarker>
@@ -35,6 +35,10 @@ export default {
     active: {
         type: Number,
         required: true
+    },
+    mobile: {
+      type: Boolean,
+      required: true
     }
   },
   components: {
@@ -125,8 +129,38 @@ export default {
   width: 50vw;
   overflow: hidden;
 }
+.map-container.mobile {
+  width: 100vw;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
 .map-container *:active,
 .map-container *:focus {
   outline: none;
+}
+.mapboxgl-canvas-container {
+  position: relative;
+}
+.mapboxgl-canvas-container::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255,255,255,.8);
+  opacity: 0;
+  pointer-events: none;
+  transition: .25s ease-out;
+  z-index: 99;
+}
+/* .mapboxgl-canvas-container.loading {
+    opacity: .5;
+} */
+.mapboxgl-canvas-container.loading::after {
+  opacity: 1;
 }
 </style>

@@ -12,3 +12,4 @@ import './parts/animation/parallax';
 // import test from './parts/test2';
 
 
+

@@ -12,12 +12,20 @@
     </section>
 <?php endif; ?>
     <footer class="site-footer">
-        <div class="site-footer_copyrights">© Leo Wacker Immobilien, 2020</div>
-        <div class="site-footer_menu">
-            
-        </div>
+        <div class="site-footer_copyrights"><?php the_field('футер_copyright', pll_current_language()); ?></div>
+        <?php if(have_rows('футер_контакты', pll_current_language())): ?>
+        <ul class="site-footer_menu">
+        <?php while(have_rows('футер_контакты', pll_current_language())): the_row(); ?>
+            <li class="site-footer_menu-item">
+                <a href="<?php the_sub_field('ссылка'); ?>"><?php the_sub_field('текст'); ?></a>
+            </li>
+        <?php endwhile; ?>
+        </ul>
+        <?php endif; ?>
     </footer>
+    <?php if(!wp_is_mobile()): ?>
     </section>
+    <?php endif; ?>
     <?php 
     get_template_part('templates/modals/modal-formular');
     wp_footer(); ?>

@@ -22,9 +22,12 @@
 @import './parts/blocks/our-team';
 // modals
 @import './parts/modals/modal-formular';
+@import './parts/modals/message';
 //animation
 @import './parts/animation/title-fadeinout';
-
 // immobilien
-
+@import './parts/single-object';
 @import './immobilien-app/main';
+
+// responsive 
+@import './responsive/media';
